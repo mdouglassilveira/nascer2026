@@ -15,6 +15,10 @@ export function AuthProvider({ children }) {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
+      // Mark user as ativo on sign in
+      if (_event === 'SIGNED_IN' && session?.user) {
+        supabase.from('users').update({ status: 'ativo' }).eq('id', session.user.id).eq('status', 'convidado').then(() => {})
+      }
     })
 
     return () => subscription.unsubscribe()

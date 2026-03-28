@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useProject } from '../../hooks/useProject'
 import Loading from '../../components/Loading'
-import { UserPlus, Trash2, Loader2, Users, X, Crown, Mail, CheckCircle2 } from 'lucide-react'
+import { UserPlus, Loader2, Users, X, Crown, Mail, CheckCircle2 } from 'lucide-react'
 
 const MAX_MEMBERS = 5
 
@@ -14,44 +14,21 @@ export default function Team() {
   const queryClient = useQueryClient()
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', role: '' })
+  const [inviteMsg, setInviteMsg] = useState('')
 
-  // Get all users linked to this project
-  const { data: projectUsers } = useQuery({
-    queryKey: ['project_users', project?.id],
+  // Get ALL users linked to this project (active + invited)
+  const { data: members, isLoading } = useQuery({
+    queryKey: ['project_members', project?.id],
     queryFn: async () => {
       const { data } = await supabase
         .from('users')
-        .select('id, full_name, email, role, avatar_url')
+        .select('id, full_name, email, role, avatar_url, status')
         .eq('project_id', project.id)
         .order('created_at', { ascending: true })
       return data || []
     },
     enabled: !!project,
   })
-
-  // Get team_members (pending members not yet registered)
-  const { data: pendingMembers, isLoading } = useQuery({
-    queryKey: ['team_members', project?.id, projectUsers],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from('team_members')
-        .select('*')
-        .eq('project_id', project.id)
-        .order('created_at', { ascending: true })
-
-      // Get fresh list of active user emails
-      const { data: activeUsers } = await supabase
-        .from('users')
-        .select('email')
-        .eq('project_id', project.id)
-      const activeEmails = new Set(activeUsers?.map(u => u.email) || [])
-
-      return (data || []).filter(m => !activeEmails.has(m.email))
-    },
-    enabled: !!project,
-  })
-
-  const [inviteMsg, setInviteMsg] = useState('')
 
   const addMutation = useMutation({
     mutationFn: async () => {
@@ -69,8 +46,7 @@ export default function Team() {
       return data
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['team_members'] })
-      queryClient.invalidateQueries({ queryKey: ['project_users'] })
+      queryClient.invalidateQueries({ queryKey: ['project_members'] })
       queryClient.invalidateQueries({ queryKey: ['team_count'] })
       setForm({ name: '', email: '', role: '' })
       setShowForm(false)
@@ -79,20 +55,9 @@ export default function Team() {
     },
   })
 
-  const removeMutation = useMutation({
-    mutationFn: async (memberId) => {
-      const { error } = await supabase.from('team_members').delete().eq('id', memberId)
-      if (error) throw error
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['team_members'] })
-      queryClient.invalidateQueries({ queryKey: ['team_count'] })
-    },
-  })
-
   if (isLoading || projectLoading) return <Loading />
 
-  const totalCount = (projectUsers?.length || 0) + (pendingMembers?.length || 0)
+  const totalCount = members?.length || 0
   const canAdd = totalCount < MAX_MEMBERS
 
   const colors = [
@@ -139,48 +104,39 @@ export default function Team() {
         </div>
       </div>
 
-      {/* Registered users */}
-      {projectUsers?.map((member, i) => (
-        <div key={member.id} className="bg-card rounded-2xl border border-border/50 shadow-sm shadow-black/5 p-4 flex items-center gap-3 mb-2.5">
-          {member.avatar_url ? (
-            <img src={member.avatar_url} alt="" className="w-11 h-11 rounded-xl object-cover shrink-0" />
-          ) : (
-            <div className={`w-11 h-11 rounded-xl bg-linear-to-br ${colors[i % colors.length]} flex items-center justify-center shrink-0 shadow-sm`}>
-              <span className="text-white font-bold text-sm">{(member.full_name || member.email).charAt(0).toUpperCase()}</span>
-            </div>
-          )}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5">
-              <p className="text-sm font-semibold truncate">{member.full_name || member.email}</p>
-              {member.role === 'founder' && <Crown className="w-3.5 h-3.5 text-warning shrink-0" />}
-            </div>
-            <p className="text-xs text-text-muted truncate">{member.email}</p>
-          </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary/10 text-secondary">Ativo</span>
-        </div>
-      ))}
+      {/* Members list */}
+      <div className="space-y-2.5">
+        {members?.map((member, i) => {
+          const isActive = member.status === 'ativo'
+          const isFounder = member.role === 'founder'
 
-      {/* Pending members (in team_members but not registered) */}
-      {pendingMembers?.map((member, i) => (
-        <div key={member.id} className="bg-card rounded-2xl border border-border/50 shadow-sm shadow-black/5 p-4 flex items-center gap-3 mb-2.5 opacity-70">
-          <div className={`w-11 h-11 rounded-xl bg-gray-200 flex items-center justify-center shrink-0`}>
-            <span className="text-gray-500 font-bold text-sm">{member.name.charAt(0).toUpperCase()}</span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold truncate">{member.name}</p>
-            <p className="text-xs text-text-muted truncate">{member.role || member.email}</p>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-warning/10 text-warning">Pendente</span>
-            <button
-              onClick={() => removeMutation.mutate(member.id)}
-              className="w-8 h-8 rounded-xl flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-      ))}
+          return (
+            <div key={member.id} className={`bg-card rounded-2xl border border-border/50 shadow-sm shadow-black/5 p-4 flex items-center gap-3 ${!isActive ? 'opacity-70' : ''}`}>
+              {member.avatar_url ? (
+                <img src={member.avatar_url} alt="" className="w-11 h-11 rounded-xl object-cover shrink-0" />
+              ) : (
+                <div className={`w-11 h-11 rounded-xl bg-linear-to-br ${isActive ? colors[i % colors.length] : 'from-gray-300 to-gray-400'} flex items-center justify-center shrink-0 shadow-sm`}>
+                  <span className="text-white font-bold text-sm">{(member.full_name || member.email).charAt(0).toUpperCase()}</span>
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <p className="text-sm font-semibold truncate">{member.full_name || member.email}</p>
+                  {isFounder && <Crown className="w-3.5 h-3.5 text-warning shrink-0" />}
+                </div>
+                <p className="text-xs text-text-muted truncate">{member.email}</p>
+              </div>
+              <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${
+                isActive
+                  ? 'bg-secondary/10 text-secondary'
+                  : 'bg-warning/10 text-warning'
+              }`}>
+                {isActive ? 'Ativo' : 'Convidado'}
+              </span>
+            </div>
+          )
+        })}
+      </div>
 
       {/* Empty state */}
       {totalCount <= 1 && !showForm && (
@@ -208,7 +164,7 @@ export default function Team() {
       {showForm && (
         <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5 mt-3">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-sm">Novo membro</h3>
+            <h3 className="font-bold text-sm">Convidar membro</h3>
             <button onClick={() => setShowForm(false)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
               <X className="w-3.5 h-3.5" />
             </button>

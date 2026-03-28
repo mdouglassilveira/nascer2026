@@ -90,22 +90,16 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Erro ao criar usuário: ' + createError.message })
     }
 
-    // Set project_id
+    // Set project_id and status as convidado
     await supabaseAdmin
       .from('users')
-      .update({ project_id: callerProfile.project_id, role: 'membro', full_name: name })
-      .eq('id', newUser.user.id)
-
-    // Add to team_members
-    await supabaseAdmin
-      .from('team_members')
-      .insert({
+      .update({
         project_id: callerProfile.project_id,
-        name,
-        email,
-        role: role || 'Membro',
-        user_id: newUser.user.id,
+        role: 'membro',
+        full_name: name,
+        status: 'convidado',
       })
+      .eq('id', newUser.user.id)
 
     // Send password reset email
     const origin = req.headers.origin || 'https://nascer2026.vercel.app'
