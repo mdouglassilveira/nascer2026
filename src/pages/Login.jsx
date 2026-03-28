@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { Loader2, Sparkles, ArrowRight, Mail, Lock } from 'lucide-react'
 
@@ -153,6 +153,10 @@ export default function Login() {
               >
                 Esqueci minha senha
               </button>
+              <p className="text-center text-sm text-text-muted mt-3">
+                Não tem conta?{' '}
+                <Link to="/registro" className="text-primary font-semibold">Cadastre-se</Link>
+              </p>
             </form>
           </div>
         )}

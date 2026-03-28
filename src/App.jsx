@@ -2,8 +2,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './hooks/useAuth'
 import ProtectedRoute from './components/ProtectedRoute'
+import AppRouter from './components/AppRouter'
 import Layout from './components/Layout'
 import Login from './pages/Login'
+import Register from './pages/Register'
+import ResetPassword from './pages/ResetPassword'
+import Enrollment from './pages/enrollment/Index'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/profile/Index'
 import Project from './pages/project/Index'
@@ -18,8 +22,6 @@ import EventDetail from './pages/schedule/Detail'
 import Contents from './pages/contents/Index'
 import ContentDetail from './pages/contents/Detail'
 import Tools from './pages/tools/Index'
-import ResetPassword from './pages/ResetPassword'
-import Enrollment from './pages/enrollment/Index'
 import UpdatePrompt from './components/UpdatePrompt'
 
 const queryClient = new QueryClient({
@@ -37,15 +39,25 @@ export default function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
+            {/* Public routes */}
             <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+
+            {/* Enrollment (protected but outside main app) */}
             <Route path="/inscricao" element={
-              <ProtectedRoute><Enrollment /></ProtectedRoute>
+              <ProtectedRoute>
+                <Enrollment />
+              </ProtectedRoute>
             } />
+
+            {/* Main app (protected + must have project) */}
             <Route
               element={
                 <ProtectedRoute>
-                  <Layout />
+                  <AppRouter>
+                    <Layout />
+                  </AppRouter>
                 </ProtectedRoute>
               }
             >
