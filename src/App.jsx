@@ -22,6 +22,12 @@ import EventDetail from './pages/schedule/Detail'
 import Contents from './pages/contents/Index'
 import ContentDetail from './pages/contents/Detail'
 import Tools from './pages/tools/Index'
+import AdminLayout from './pages/admin/Layout'
+import AdminDashboard from './pages/admin/Dashboard'
+import AdminEnrollments from './pages/admin/Enrollments'
+import AdminEnrollmentDetail from './pages/admin/EnrollmentDetail'
+import AdminEvaluate from './pages/admin/Evaluate'
+import AdminRanking from './pages/admin/Ranking'
 import UpdatePrompt from './components/UpdatePrompt'
 
 const queryClient = new QueryClient({
@@ -46,12 +52,21 @@ export default function App() {
 
             {/* Enrollment (protected but outside main app) */}
             <Route path="/inscricao" element={
-              <ProtectedRoute>
-                <Enrollment />
-              </ProtectedRoute>
+              <ProtectedRoute><Enrollment /></ProtectedRoute>
             } />
 
-            {/* Main app (protected + must have project) */}
+            {/* Admin panel (protected, role-based) */}
+            <Route path="/admin" element={
+              <ProtectedRoute><AdminLayout /></ProtectedRoute>
+            }>
+              <Route index element={<AdminDashboard />} />
+              <Route path="inscricoes" element={<AdminEnrollments />} />
+              <Route path="inscricoes/:id" element={<AdminEnrollmentDetail />} />
+              <Route path="avaliacoes" element={<AdminEvaluate />} />
+              <Route path="ranking" element={<AdminRanking />} />
+            </Route>
+
+            {/* Main empreendedor app (protected + must have project) */}
             <Route
               element={
                 <ProtectedRoute>
