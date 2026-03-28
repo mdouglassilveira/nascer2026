@@ -53,6 +53,24 @@ html {
   border-radius: 4px;
 }
 
+/* Reusable input field */
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  background: var(--color-bg);
+  border: none;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  outline: none;
+}
+.input-field:focus {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+.input-field::placeholder {
+  color: color-mix(in srgb, var(--color-text-muted) 50%, transparent);
+}
+
 /* Safe area for PWA on notched devices */
 @supports (padding-top: env(safe-area-inset-top)) {
   body {

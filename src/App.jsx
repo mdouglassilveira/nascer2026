@@ -19,6 +19,7 @@ import Contents from './pages/contents/Index'
 import ContentDetail from './pages/contents/Detail'
 import Tools from './pages/tools/Index'
 import ResetPassword from './pages/ResetPassword'
+import Enrollment from './pages/enrollment/Index'
 import UpdatePrompt from './components/UpdatePrompt'
 
 const queryClient = new QueryClient({
@@ -38,6 +39,9 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/inscricao" element={
+              <ProtectedRoute><Enrollment /></ProtectedRoute>
+            } />
             <Route
               element={
                 <ProtectedRoute>
