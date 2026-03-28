@@ -31,18 +31,24 @@ export default function Team() {
 
   // Get team_members (pending members not yet registered)
   const { data: pendingMembers, isLoading } = useQuery({
-    queryKey: ['team_members', project?.id],
+    queryKey: ['team_members', project?.id, projectUsers],
     queryFn: async () => {
       const { data } = await supabase
         .from('team_members')
         .select('*')
         .eq('project_id', project.id)
         .order('created_at', { ascending: true })
-      // Filter out members that already have a user account linked to this project
-      const projectEmails = new Set(projectUsers?.map(u => u.email) || [])
-      return (data || []).filter(m => !projectEmails.has(m.email))
+
+      // Get fresh list of active user emails
+      const { data: activeUsers } = await supabase
+        .from('users')
+        .select('email')
+        .eq('project_id', project.id)
+      const activeEmails = new Set(activeUsers?.map(u => u.email) || [])
+
+      return (data || []).filter(m => !activeEmails.has(m.email))
     },
-    enabled: !!project && !!projectUsers,
+    enabled: !!project,
   })
 
   const [inviteMsg, setInviteMsg] = useState('')

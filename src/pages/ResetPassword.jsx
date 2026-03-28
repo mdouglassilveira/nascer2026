@@ -9,15 +9,32 @@ export default function ResetPassword() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [ready, setReady] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Supabase handles the token exchange automatically via the URL hash
-    supabase.auth.onAuthStateChange((event) => {
+    // Listen for the PASSWORD_RECOVERY event which fires when
+    // Supabase processes the recovery token from the URL hash
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
-        // User arrived via password reset link - ready to set new password
+        setReady(true)
+      } else if (event === 'SIGNED_IN' && session) {
+        // Some flows fire SIGNED_IN instead of PASSWORD_RECOVERY
+        setReady(true)
       }
     })
+
+    // Also check if we already have a session (token was already processed)
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) setReady(true)
+    })
+
+    // Fallback: if hash contains access_token, we're in recovery flow
+    if (window.location.hash.includes('access_token')) {
+      setTimeout(() => setReady(true), 1500)
+    }
+
+    return () => subscription.unsubscribe()
   }, [])
 
   const handleSubmit = async (e) => {
@@ -34,11 +51,12 @@ export default function ResetPassword() {
     }
 
     setLoading(true)
-    const { error } = await supabase.auth.updateUser({ password })
+    const { error: updateError } = await supabase.auth.updateUser({ password })
     setLoading(false)
 
-    if (error) {
-      setError('Erro ao redefinir senha. Tente novamente.')
+    if (updateError) {
+      console.error('Reset error:', updateError)
+      setError('Erro ao redefinir senha: ' + updateError.message)
     } else {
       setSuccess(true)
       setTimeout(() => navigate('/'), 2000)
@@ -70,42 +88,51 @@ export default function ResetPassword() {
       </div>
 
       <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20">
-        <h2 className="text-2xl font-bold mb-1">Nova senha</h2>
-        <p className="text-sm text-text-muted mb-6">Crie uma senha para acessar o programa</p>
+        {!ready ? (
+          <div className="text-center py-8">
+            <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-3" />
+            <p className="text-sm text-text-muted">Verificando link de recuperação...</p>
+          </div>
+        ) : (
+          <>
+            <h2 className="text-2xl font-bold mb-1">Nova senha</h2>
+            <p className="text-sm text-text-muted mb-6">Crie uma senha para acessar o programa</p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative">
-            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
-              placeholder="Nova senha"
-            />
-          </div>
-          <div className="relative">
-            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-            <input
-              type="password"
-              value={confirm}
-              onChange={e => setConfirm(e.target.value)}
-              required
-              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
-              placeholder="Confirme a senha"
-            />
-          </div>
-          {error && <p className="text-danger text-sm px-1">{error}</p>}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl font-semibold text-sm shadow-lg shadow-primary/30 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
-          >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
-            Definir senha
-          </button>
-        </form>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                  className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
+                  placeholder="Nova senha (mín. 6 caracteres)"
+                />
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+                <input
+                  type="password"
+                  value={confirm}
+                  onChange={e => setConfirm(e.target.value)}
+                  required
+                  className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
+                  placeholder="Confirme a senha"
+                />
+              </div>
+              {error && <p className="text-danger text-sm px-1">{error}</p>}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl font-semibold text-sm shadow-lg shadow-primary/30 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+              >
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
+                Definir senha
+              </button>
+            </form>
+          </>
+        )}
       </div>
     </div>
   )
