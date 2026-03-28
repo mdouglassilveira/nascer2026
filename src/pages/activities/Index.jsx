@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { useAuth } from '../../hooks/useAuth'
+import { useProject } from '../../hooks/useProject'
 import Loading from '../../components/Loading'
 import { CheckCircle2, ClipboardList, ChevronRight, Zap } from 'lucide-react'
 
 export default function Activities() {
-  const { user } = useAuth()
+  const { project, isLoading: projectLoading } = useProject()
 
   const { data: activities, isLoading } = useQuery({
     queryKey: ['activities'],
@@ -17,15 +17,15 @@ export default function Activities() {
   })
 
   const { data: responses } = useQuery({
-    queryKey: ['activity_responses', user?.id],
+    queryKey: ['activity_responses', project?.id],
     queryFn: async () => {
-      const { data } = await supabase.from('activity_responses').select('activity_id').eq('user_id', user.id)
+      const { data } = await supabase.from('activity_responses').select('activity_id').eq('project_id', project.id)
       return data?.map(r => r.activity_id) || []
     },
-    enabled: !!user,
+    enabled: !!project,
   })
 
-  if (isLoading) return <Loading />
+  if (isLoading || projectLoading) return <Loading />
 
   const completedIds = new Set(responses || [])
   const total = activities?.length || 0
@@ -39,7 +39,7 @@ export default function Activities() {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <Zap className="w-5 h-5 text-yellow-300" />
-            <span className="text-white font-bold text-sm">Seu progresso</span>
+            <span className="text-white font-bold text-sm">Progresso do projeto</span>
           </div>
           <span className="text-white font-extrabold text-xl">{pct}%</span>
         </div>

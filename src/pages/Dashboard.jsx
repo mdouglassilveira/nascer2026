@@ -39,22 +39,30 @@ export default function Dashboard() {
   const { data: project, isLoading } = useQuery({
     queryKey: ['project', user?.id],
     queryFn: async () => {
-      const { data } = await supabase.from('projects').select('*').eq('user_id', user.id).single()
-      return data
+      // Try owned project first
+      const { data: owned } = await supabase.from('projects').select('*').eq('user_id', user.id).single()
+      if (owned) return owned
+      // Try as team member
+      const { data: membership } = await supabase.from('team_members').select('project_id').eq('email', user.email).limit(1).single()
+      if (membership) {
+        const { data: teamProject } = await supabase.from('projects').select('*').eq('id', membership.project_id).single()
+        return teamProject
+      }
+      return null
     },
     enabled: !!user,
   })
 
   const { data: progress } = useQuery({
-    queryKey: ['progress', user?.id],
+    queryKey: ['progress', project?.id],
     queryFn: async () => {
-      const { data: responses } = await supabase.from('activity_responses').select('id').eq('user_id', user.id)
+      const { data: responses } = await supabase.from('activity_responses').select('id').eq('project_id', project.id)
       const { count: total } = await supabase.from('activities').select('*', { count: 'exact', head: true })
       const completed = responses?.length || 0
       const totalCount = total || 1
       return Math.round((completed / totalCount) * 100)
     },
-    enabled: !!user,
+    enabled: !!project,
   })
 
   if (isLoading) return <Loading />

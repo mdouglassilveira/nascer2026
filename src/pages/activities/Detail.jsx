@@ -3,12 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useProject } from '../../hooks/useProject'
 import Loading from '../../components/Loading'
 import { ArrowLeft, Send, Loader2, CheckCircle2, Pencil } from 'lucide-react'
 
 export default function ActivityDetail() {
   const { id } = useParams()
   const { user } = useAuth()
+  const { project } = useProject()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [answers, setAnswers] = useState({})
@@ -22,19 +24,19 @@ export default function ActivityDetail() {
   })
 
   const { data: existingResponse } = useQuery({
-    queryKey: ['activity_response', id, user?.id],
+    queryKey: ['activity_response', id, project?.id],
     queryFn: async () => {
-      const { data } = await supabase.from('activity_responses').select('*').eq('activity_id', id).eq('user_id', user.id).single()
+      const { data } = await supabase.from('activity_responses').select('*').eq('activity_id', id).eq('project_id', project.id).single()
       return data
     },
-    enabled: !!user,
+    enabled: !!project,
   })
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const payload = { user_id: user.id, activity_id: id, answers, submitted_at: new Date().toISOString() }
+      const payload = { user_id: user.id, project_id: project.id, activity_id: id, answers, submitted_at: new Date().toISOString() }
       if (existingResponse) {
-        const { error } = await supabase.from('activity_responses').update(payload).eq('id', existingResponse.id)
+        const { error } = await supabase.from('activity_responses').update({ answers, submitted_at: new Date().toISOString() }).eq('id', existingResponse.id)
         if (error) throw error
       } else {
         const { error } = await supabase.from('activity_responses').insert(payload)
@@ -109,7 +111,7 @@ export default function ActivityDetail() {
                   value={answers[field.name] || ''}
                   onChange={e => setAnswers(a => ({ ...a, [field.name]: e.target.value }))}
                   rows={3}
-                  placeholder={`Descreva aqui...`}
+                  placeholder="Descreva aqui..."
                   className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
                   required={field.required}
                 />
@@ -128,7 +130,7 @@ export default function ActivityDetail() {
                   type="text"
                   value={answers[field.name] || ''}
                   onChange={e => setAnswers(a => ({ ...a, [field.name]: e.target.value }))}
-                  placeholder={`Informe aqui...`}
+                  placeholder="Informe aqui..."
                   className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50"
                   required={field.required}
                 />

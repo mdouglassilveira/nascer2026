@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useProject } from '../../hooks/useProject'
 import Loading from '../../components/Loading'
 import { CheckCircle2, XCircle, Clock, CalendarCheck } from 'lucide-react'
 
 export default function Attendance() {
   const { user } = useAuth()
+  const { project, isLoading: projectLoading } = useProject()
 
   const { data: events, isLoading: eventsLoading } = useQuery({
     queryKey: ['events'],
@@ -15,19 +17,49 @@ export default function Attendance() {
     },
   })
 
-  const { data: attendances, isLoading: attLoading } = useQuery({
-    queryKey: ['attendances', user?.id],
+  // Get all team member user IDs for this project
+  const { data: teamUserIds } = useQuery({
+    queryKey: ['team_user_ids', project?.id],
     queryFn: async () => {
-      const { data } = await supabase.from('attendances').select('*').eq('user_id', user.id)
-      return data || []
+      const ids = [project.user_id]
+      const { data: members } = await supabase
+        .from('team_members')
+        .select('user_id')
+        .eq('project_id', project.id)
+        .not('user_id', 'is', null)
+      if (members) ids.push(...members.map(m => m.user_id))
+      return ids
     },
-    enabled: !!user,
+    enabled: !!project,
   })
 
-  if (eventsLoading || attLoading) return <Loading />
+  // Fetch attendances for ALL team members
+  const { data: attendances, isLoading: attLoading } = useQuery({
+    queryKey: ['attendances_team', teamUserIds],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from('attendances')
+        .select('*')
+        .in('user_id', teamUserIds)
+      return data || []
+    },
+    enabled: !!teamUserIds?.length,
+  })
 
-  const attendanceMap = new Map(attendances?.map(a => [a.event_id, a.status]) || [])
-  const present = attendances?.filter(a => a.status === 'presente').length || 0
+  if (eventsLoading || attLoading || projectLoading) return <Loading />
+
+  // For each event, check if ANY team member is present
+  const eventStatusMap = new Map()
+  for (const att of (attendances || [])) {
+    const current = eventStatusMap.get(att.event_id)
+    if (att.status === 'presente') {
+      eventStatusMap.set(att.event_id, 'presente')
+    } else if (!current) {
+      eventStatusMap.set(att.event_id, att.status)
+    }
+  }
+
+  const present = [...eventStatusMap.values()].filter(s => s === 'presente').length
   const total = events?.length || 0
   const pct = total > 0 ? Math.round((present / total) * 100) : 0
 
@@ -48,7 +80,7 @@ export default function Attendance() {
       {/* List */}
       <div className="space-y-2.5">
         {events?.map(event => {
-          const status = attendanceMap.get(event.id)
+          const status = eventStatusMap.get(event.id)
           const isPresent = status === 'presente'
           const isAbsent = status === 'ausente'
 
