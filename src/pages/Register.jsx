@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
-import { Loader2, Sparkles, ArrowRight, Mail, Lock, User } from 'lucide-react'
+import { Loader2, Sparkles, ArrowRight, Mail, Lock, User, CheckCircle2 } from 'lucide-react'
 
 export default function Register() {
   const [name, setName] = useState('')
@@ -9,7 +9,7 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [emailSent, setEmailSent] = useState(false)
 
   const handleRegister = async (e) => {
     e.preventDefault()
@@ -21,16 +21,17 @@ export default function Register() {
     }
 
     setLoading(true)
-
-    // Try signup
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+    const { error: signUpError } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: name } },
+      options: {
+        data: { full_name: name },
+        emailRedirectTo: 'https://nascer2026.vercel.app/inscricao',
+      },
     })
+    setLoading(false)
 
     if (signUpError) {
-      setLoading(false)
       if (signUpError.message.includes('already registered')) {
         setError('Este email já possui uma conta. Faça login.')
       } else {
@@ -39,24 +40,49 @@ export default function Register() {
       return
     }
 
-    // If signup doesn't auto-login (email confirmation required), do manual login
-    if (!signUpData.session) {
-      const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
-      if (loginError) {
-        setLoading(false)
-        setError('Conta criada! Verifique seu email para confirmar ou tente fazer login.')
-        return
-      }
-    }
+    setEmailSent(true)
+  }
 
-    setLoading(false)
-    navigate('/inscricao')
+  if (emailSent) {
+    return (
+      <div className="min-h-screen flex flex-col bg-linear-to-br from-primary via-primary-dark to-gradient-end relative overflow-hidden">
+        <div className="absolute top-[-20%] right-[-20%] w-125 h-125 rounded-full bg-white/5 blur-3xl" />
+
+        <div className="flex-1 flex flex-col items-center justify-center px-6 relative z-10">
+          <div className="w-20 h-20 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center mb-6">
+            <Mail className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-2xl font-extrabold text-white text-center">Verifique seu email</h1>
+          <p className="text-white/60 text-sm mt-3 text-center max-w-xs">
+            Enviamos um link de confirmação para
+          </p>
+          <p className="text-white font-semibold text-sm mt-1">{email}</p>
+          <p className="text-white/50 text-xs mt-4 text-center max-w-xs">
+            Clique no link do email para ativar sua conta e começar a inscrição.
+          </p>
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <Link
+              to="/login"
+              className="bg-white/15 backdrop-blur-md text-white px-6 py-3 rounded-2xl text-sm font-semibold active:scale-[0.98] transition-transform"
+            >
+              Ir para o login
+            </Link>
+            <button
+              onClick={() => setEmailSent(false)}
+              className="text-white/50 text-xs hover:text-white/80"
+            >
+              Usar outro email
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
     <div className="min-h-screen flex flex-col bg-linear-to-br from-primary via-primary-dark to-gradient-end relative overflow-hidden">
-      <div className="absolute top-[-20%] right-[-20%] w-[500px] h-[500px] rounded-full bg-white/5 blur-3xl" />
-      <div className="absolute bottom-[-10%] left-[-15%] w-[400px] h-[400px] rounded-full bg-secondary/10 blur-3xl" />
+      <div className="absolute top-[-20%] right-[-20%] w-125 h-125 rounded-full bg-white/5 blur-3xl" />
+      <div className="absolute bottom-[-10%] left-[-15%] w-100 h-100 rounded-full bg-secondary/10 blur-3xl" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16 pb-8 relative z-10">
         <div className="w-20 h-20 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
@@ -66,7 +92,7 @@ export default function Register() {
         <p className="text-white/60 text-sm mt-2">Programa de Inovação</p>
       </div>
 
-      <div className="relative z-10 bg-white rounded-t-[2rem] px-6 pt-8 pb-10 shadow-2xl shadow-black/20 lg:rounded-2xl lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
+      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 lg:rounded-2xl lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
         <h2 className="text-2xl font-bold mb-1">Criar conta</h2>
         <p className="text-sm text-text-muted mb-6">Cadastre-se para se inscrever no programa</p>
 
