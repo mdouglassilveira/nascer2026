@@ -70,7 +70,7 @@ export default function ResetPassword() {
         <p className="text-white/60 text-sm mt-2">Defina sua senha</p>
       </div>
 
-      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20">
+      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 lg:rounded-2xl lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
         <h2 className="text-2xl font-bold mb-1">Nova senha</h2>
         <p className="text-sm text-text-muted mb-6">Crie uma senha para acessar o programa</p>
 

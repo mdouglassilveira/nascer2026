@@ -63,12 +63,32 @@ html {
   font-size: 0.875rem;
   color: var(--color-text);
   outline: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 .input-field:focus {
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 30%, transparent);
 }
 .input-field::placeholder {
   color: color-mix(in srgb, var(--color-text-muted) 50%, transparent);
+}
+
+/* Select styling */
+select.input-field {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7194' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+select.input-field option {
+  padding: 0.75rem;
+  background: white;
+  color: var(--color-text);
+}
+select.input-field:invalid,
+select.input-field option[value=""] {
+  color: color-mix(in srgb, var(--color-text-muted) 60%, transparent);
 }
 
 /* Safe area for PWA on notched devices */

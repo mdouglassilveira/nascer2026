@@ -55,7 +55,7 @@ export default function Login() {
       </div>
 
       {/* Form card */}
-      <div className="relative z-10 bg-white rounded-t-[2rem] px-6 pt-8 pb-10 shadow-2xl shadow-black/20 min-h-[45vh]">
+      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 min-h-[45vh] lg:rounded-2xl lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
         {resetMode ? (
           resetSent ? (
             <div className="text-center py-8">

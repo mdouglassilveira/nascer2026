@@ -1,22 +1,24 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useEnrollment } from '../../hooks/useEnrollment'
+import { useAuth } from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
 import Step1Personal from './Step1Personal'
 import Step2Profile from './Step2Profile'
 import Step3Proposal from './Step3Proposal'
 import Step4Eligibility from './Step4Eligibility'
-import { Sparkles, CheckCircle2 } from 'lucide-react'
+import { Sparkles, CheckCircle2, LogOut } from 'lucide-react'
 
 const STEPS = [
-  { label: 'Dados pessoais', component: Step1Personal },
+  { label: 'Dados', component: Step1Personal },
   { label: 'Perfil', component: Step2Profile },
   { label: 'Proposta', component: Step3Proposal },
-  { label: 'Elegibilidade', component: Step4Eligibility },
+  { label: 'Docs', component: Step4Eligibility },
 ]
 
 export default function Enrollment() {
   const { enrollment, edition, isLoading, save, saving, submit, submitting, uploadDoc } = useEnrollment()
+  const { signOut } = useAuth()
   const [step, setStep] = useState(0)
   const [form, setForm] = useState({})
   const navigate = useNavigate()
@@ -28,6 +30,11 @@ export default function Enrollment() {
     }
   }, [enrollment?.id])
 
+  const handleLogout = async () => {
+    await signOut()
+    navigate('/login')
+  }
+
   if (isLoading) return <Loading />
 
   if (!edition?.enrollment_open) {
@@ -37,9 +44,12 @@ export default function Enrollment() {
           <Sparkles className="w-8 h-8 text-primary" />
         </div>
         <h1 className="text-xl font-bold text-center">Inscrições encerradas</h1>
-        <p className="text-sm text-text-muted mt-2 text-center">
+        <p className="text-sm text-text-muted mt-2 text-center max-w-sm">
           As inscrições para o {edition?.name || 'Programa Nascer'} não estão abertas no momento.
         </p>
+        <button onClick={handleLogout} className="mt-6 flex items-center gap-2 text-sm text-danger font-medium">
+          <LogOut className="w-4 h-4" /> Sair
+        </button>
       </div>
     )
   }
@@ -51,14 +61,11 @@ export default function Enrollment() {
           <CheckCircle2 className="w-8 h-8 text-secondary" />
         </div>
         <h1 className="text-xl font-bold text-center">Inscrição enviada!</h1>
-        <p className="text-sm text-text-muted mt-2 text-center">
-          Sua inscrição foi recebida e está em análise. Acompanhe o status pelo app.
+        <p className="text-sm text-text-muted mt-2 text-center max-w-sm">
+          Sua inscrição foi recebida e está em análise. Você será notificado sobre o resultado.
         </p>
-        <button
-          onClick={() => navigate('/')}
-          className="mt-6 bg-primary text-white px-6 py-3 rounded-2xl text-sm font-semibold active:scale-[0.98] transition-transform"
-        >
-          Voltar ao início
+        <button onClick={handleLogout} className="mt-6 flex items-center gap-2 text-sm text-text-muted font-medium">
+          <LogOut className="w-4 h-4" /> Sair da conta
         </button>
       </div>
     )
@@ -89,7 +96,7 @@ export default function Enrollment() {
       {/* Header */}
       <div className="bg-linear-to-br from-primary via-primary-dark to-gradient-end px-5 pt-10 pb-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/3" />
-        <div className="relative z-10">
+        <div className="relative z-10 max-w-lg mx-auto">
           <p className="text-white/60 text-xs font-medium uppercase tracking-wider">Inscrição</p>
           <h1 className="text-2xl font-extrabold text-white mt-1">{edition?.name}</h1>
 
@@ -110,7 +117,7 @@ export default function Enrollment() {
       </div>
 
       {/* Form */}
-      <div className="px-4 py-5 -mt-3">
+      <div className="px-4 py-5 -mt-3 max-w-lg mx-auto">
         <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5">
           <StepComponent
             form={form}

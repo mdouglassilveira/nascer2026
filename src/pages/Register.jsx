@@ -21,22 +21,36 @@ export default function Register() {
     }
 
     setLoading(true)
-    const { error } = await supabase.auth.signUp({
+
+    // Try signup
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { full_name: name } },
     })
-    setLoading(false)
 
-    if (error) {
-      if (error.message.includes('already registered')) {
+    if (signUpError) {
+      setLoading(false)
+      if (signUpError.message.includes('already registered')) {
         setError('Este email já possui uma conta. Faça login.')
       } else {
-        setError('Erro ao criar conta. Tente novamente.')
+        setError('Erro ao criar conta: ' + signUpError.message)
       }
-    } else {
-      navigate('/')
+      return
     }
+
+    // If signup doesn't auto-login (email confirmation required), do manual login
+    if (!signUpData.session) {
+      const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
+      if (loginError) {
+        setLoading(false)
+        setError('Conta criada! Verifique seu email para confirmar ou tente fazer login.')
+        return
+      }
+    }
+
+    setLoading(false)
+    navigate('/inscricao')
   }
 
   return (
@@ -52,7 +66,7 @@ export default function Register() {
         <p className="text-white/60 text-sm mt-2">Programa de Inovação</p>
       </div>
 
-      <div className="relative z-10 bg-white rounded-t-[2rem] px-6 pt-8 pb-10 shadow-2xl shadow-black/20 min-h-[50vh]">
+      <div className="relative z-10 bg-white rounded-t-[2rem] px-6 pt-8 pb-10 shadow-2xl shadow-black/20 lg:rounded-2xl lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
         <h2 className="text-2xl font-bold mb-1">Criar conta</h2>
         <p className="text-sm text-text-muted mb-6">Cadastre-se para se inscrever no programa</p>
 
