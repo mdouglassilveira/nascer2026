@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6C3CE1;
+  --color-primary-dark: #5228CC;
+  --color-primary-light: #8B5CF6;
+  --color-secondary: #06D6A0;
+  --color-secondary-dark: #05B384;
+  --color-accent: #FF6B6B;
+  --color-accent-light: #FF8E8E;
+  --color-warning: #FFD166;
+  --color-info: #118AB2;
+  --color-danger: #EF476F;
+  --color-bg: #F5F3FF;
+  --color-card: #ffffff;
+  --color-text: #1a1235;
+  --color-text-muted: #6B7194;
+  --color-border: #E8E5F0;
+  --color-gradient-start: #6C3CE1;
+  --color-gradient-end: #3B82F6;
+  --color-gradient-accent: #06D6A0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar on mobile for cleaner look */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d0e0;
+  border-radius: 4px;
+}
+
+/* Safe area for PWA on notched devices */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
