@@ -15,6 +15,7 @@ export default function AppRouter({ children }) {
 
   const { data: routing, isLoading } = useQuery({
     queryKey: ['user-routing', user?.id],
+    staleTime: 0,
     queryFn: async () => {
       const { data: edition } = await supabase
         .from('editions')
