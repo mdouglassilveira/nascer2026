@@ -6,7 +6,6 @@ const supabaseAdmin = createClient(
 )
 
 export default async function handler(req, res) {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'authorization, content-type')
@@ -23,15 +22,24 @@ export default async function handler(req, res) {
     const { data: { user: caller }, error: authError } = await supabaseAdmin.auth.getUser(token)
     if (authError || !caller) return res.status(401).json({ error: 'Não autorizado' })
 
-    // Get caller's project
-    const { data: callerProfile } = await supabaseAdmin
-      .from('users')
-      .select('project_id, role')
-      .eq('id', caller.id)
+    // Get caller's participation (edition-aware)
+    const { data: activeEdition } = await supabaseAdmin
+      .from('editions')
+      .select('id')
+      .eq('active', true)
       .single()
 
-    if (!callerProfile?.project_id) {
-      return res.status(400).json({ error: 'Você não tem um projeto' })
+    if (!activeEdition) return res.status(400).json({ error: 'Nenhuma edição ativa' })
+
+    const { data: callerParticipation } = await supabaseAdmin
+      .from('edition_participants')
+      .select('project_id, center_id, role')
+      .eq('user_id', caller.id)
+      .eq('edition_id', activeEdition.id)
+      .single()
+
+    if (!callerParticipation?.project_id) {
+      return res.status(400).json({ error: 'Você não tem um projeto nesta edição' })
     }
 
     const { name, email, role } = req.body
@@ -39,45 +47,70 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Nome e email são obrigatórios' })
     }
 
-    // Check team size
+    // Check team size (from edition_participants)
     const { count: teamSize } = await supabaseAdmin
-      .from('users')
+      .from('edition_participants')
       .select('*', { count: 'exact', head: true })
-      .eq('project_id', callerProfile.project_id)
+      .eq('project_id', callerParticipation.project_id)
+      .eq('edition_id', activeEdition.id)
 
-    const { count: pendingSize } = await supabaseAdmin
-      .from('team_members')
-      .select('*', { count: 'exact', head: true })
-      .eq('project_id', callerProfile.project_id)
-
-    if ((teamSize ?? 0) + (pendingSize ?? 0) >= 5) {
+    if ((teamSize ?? 0) >= 5) {
       return res.status(400).json({ error: 'Limite de 5 membros atingido' })
     }
 
-    // Check if user already exists in this project
+    // Check if user already has a participation in this edition
     const { data: existingUsers } = await supabaseAdmin
       .from('users')
-      .select('id, project_id')
+      .select('id, email')
       .eq('email', email)
 
-    if (existingUsers?.length > 0) {
-      const existing = existingUsers[0]
-      if (existing.project_id === callerProfile.project_id) {
+    let userId = existingUsers?.[0]?.id
+
+    if (userId) {
+      // User exists - check if already in this edition
+      const { data: existingParticipation } = await supabaseAdmin
+        .from('edition_participants')
+        .select('id, project_id')
+        .eq('user_id', userId)
+        .eq('edition_id', activeEdition.id)
+        .single()
+
+      if (existingParticipation?.project_id === callerParticipation.project_id) {
         return res.status(400).json({ error: 'Este membro já faz parte da sua equipe' })
       }
-      if (existing.project_id) {
-        return res.status(400).json({ error: 'Este email já está vinculado a outro projeto' })
+      if (existingParticipation?.project_id) {
+        return res.status(400).json({ error: 'Este email já está vinculado a outro projeto nesta edição' })
       }
-      // Link existing user
-      await supabaseAdmin
-        .from('users')
-        .update({ project_id: callerProfile.project_id, role: 'membro' })
-        .eq('id', existing.id)
+
+      // User exists but no participation - create one
+      if (existingParticipation && !existingParticipation.project_id) {
+        await supabaseAdmin
+          .from('edition_participants')
+          .update({
+            project_id: callerParticipation.project_id,
+            center_id: callerParticipation.center_id,
+            role: 'empreendedor',
+            status: 'ativo',
+          })
+          .eq('id', existingParticipation.id)
+      } else {
+        // No participation at all - create new
+        await supabaseAdmin
+          .from('edition_participants')
+          .insert({
+            user_id: userId,
+            edition_id: activeEdition.id,
+            project_id: callerParticipation.project_id,
+            center_id: callerParticipation.center_id,
+            role: 'empreendedor',
+            status: 'ativo',
+          })
+      }
 
       return res.json({ success: true, message: 'Membro vinculado ao projeto com sucesso!' })
     }
 
-    // Create new auth user
+    // User doesn't exist - create new auth user
     const tempPassword = crypto.randomUUID().slice(0, 12) + '!A1'
     const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email,
@@ -90,16 +123,25 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Erro ao criar usuário: ' + createError.message })
     }
 
-    // Set project_id and status as convidado
+    userId = newUser.user.id
+
+    // Update user profile
     await supabaseAdmin
       .from('users')
-      .update({
-        project_id: callerProfile.project_id,
-        role: 'membro',
-        full_name: name,
+      .update({ full_name: name, status: 'convidado' })
+      .eq('id', userId)
+
+    // Create edition_participant
+    await supabaseAdmin
+      .from('edition_participants')
+      .insert({
+        user_id: userId,
+        edition_id: activeEdition.id,
+        project_id: callerParticipation.project_id,
+        center_id: callerParticipation.center_id,
+        role: 'empreendedor',
         status: 'convidado',
       })
-      .eq('id', newUser.user.id)
 
     // Send password reset email
     const origin = req.headers.origin || 'https://nascer2026.vercel.app'
