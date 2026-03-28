@@ -57,6 +57,35 @@ export default function Dashboard() {
     enabled: !!project,
   })
 
+  const { data: attendanceCount } = useQuery({
+    queryKey: ['attendance_count', project?.id],
+    queryFn: async () => {
+      // Get all team user IDs
+      const { data: teamUsers } = await supabase.from('users').select('id').eq('project_id', project.id)
+      const ids = teamUsers?.map(u => u.id) || []
+      if (!ids.length) return { present: 0, total: 0 }
+
+      const { data: atts } = await supabase.from('attendances').select('event_id, status').in('user_id', ids)
+      const { count: totalEvents } = await supabase.from('events').select('*', { count: 'exact', head: true })
+
+      const presentEvents = new Set()
+      for (const a of (atts || [])) {
+        if (a.status === 'presente') presentEvents.add(a.event_id)
+      }
+      return { present: presentEvents.size, total: totalEvents || 0 }
+    },
+    enabled: !!project,
+  })
+
+  const { data: teamCount } = useQuery({
+    queryKey: ['team_count', project?.id],
+    queryFn: async () => {
+      const { count } = await supabase.from('users').select('*', { count: 'exact', head: true }).eq('project_id', project.id)
+      return count || 1
+    },
+    enabled: !!project,
+  })
+
   if (isLoading) return <Loading />
 
   const firstName = profile?.full_name?.split(' ')[0] || 'Empreendedor'
@@ -117,10 +146,10 @@ export default function Dashboard() {
         <div className="grid grid-cols-3 gap-3">
           <StatCard icon={Target} label="Atividades" value={`${progress ?? 0}%`} color="text-primary bg-primary/10" />
           <Link to="/presencas">
-            <StatCard icon={CalendarCheck} label="Presenças" value="—" color="text-secondary bg-secondary/10" />
+            <StatCard icon={CalendarCheck} label="Presenças" value={attendanceCount ? `${attendanceCount.present}/${attendanceCount.total}` : '—'} color="text-secondary bg-secondary/10" />
           </Link>
           <Link to="/equipe">
-            <StatCard icon={Users} label="Equipe" value="—" color="text-accent bg-accent/10" />
+            <StatCard icon={Users} label="Equipe" value={teamCount ?? '—'} color="text-accent bg-accent/10" />
           </Link>
         </div>
       </div>
