@@ -5,18 +5,17 @@ import { useAuth } from '../hooks/useAuth'
 import Loading from './Loading'
 
 /**
- * Smart router that decides where to send the user:
- * 1. Has project in active edition → Dashboard (empreendedor app)
- * 2. Has enrollment in active edition → Enrollment status page
- * 3. No enrollment → Check if enrollments open → Enrollment form or closed message
+ * Smart router that decides where to send the user based on role:
+ * - admin/avaliador/coordenador → /admin
+ * - empreendedor with project → Dashboard (children)
+ * - empreendedor without project → /inscricao
  */
-export default function AppRouter({ children, enrollmentPage }) {
+export default function AppRouter({ children }) {
   const { user } = useAuth()
 
   const { data: routing, isLoading } = useQuery({
     queryKey: ['user-routing', user?.id],
     queryFn: async () => {
-      // Get active edition
       const { data: edition } = await supabase
         .from('editions')
         .select('id, enrollment_open, name')
@@ -25,7 +24,7 @@ export default function AppRouter({ children, enrollmentPage }) {
 
       if (!edition) return { destination: 'no-edition' }
 
-      // Check if user has a participation with project (approved)
+      // Check participation in active edition
       const { data: participation } = await supabase
         .from('edition_participants')
         .select('id, project_id, role, status')
@@ -33,11 +32,17 @@ export default function AppRouter({ children, enrollmentPage }) {
         .eq('edition_id', edition.id)
         .single()
 
+      // Staff roles go to admin
+      if (participation?.role && ['admin', 'avaliador', 'coordenador'].includes(participation.role)) {
+        return { destination: 'admin', participation }
+      }
+
+      // Empreendedor with project
       if (participation?.project_id) {
         return { destination: 'app', participation }
       }
 
-      // Check if user has an enrollment
+      // Check enrollment
       const { data: enrollment } = await supabase
         .from('enrollments')
         .select('id, status, form_step')
@@ -49,7 +54,6 @@ export default function AppRouter({ children, enrollmentPage }) {
         return { destination: 'enrollment', enrollment, edition }
       }
 
-      // No enrollment yet
       return {
         destination: edition.enrollment_open ? 'enrollment' : 'closed',
         edition,
@@ -62,13 +66,9 @@ export default function AppRouter({ children, enrollmentPage }) {
 
   const dest = routing?.destination
 
-  // User has project → show the empreendedor app
+  if (dest === 'admin') return <Navigate to="/admin" replace />
   if (dest === 'app') return children
-
-  // User needs enrollment form or has pending enrollment
   if (dest === 'enrollment') return <Navigate to="/inscricao" replace />
-
-  // Enrollments are closed and user has no access
   if (dest === 'closed' || dest === 'no-edition') return <Navigate to="/inscricao" replace />
 
   return children
