@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useProject } from '../../hooks/useProject'
 import Loading from '../../components/Loading'
-import { UserPlus, Trash2, Loader2, Users, X, Crown } from 'lucide-react'
+import { UserPlus, Trash2, Loader2, Users, X, Crown, Mail, CheckCircle2 } from 'lucide-react'
 
 const MAX_MEMBERS = 5
 
@@ -45,16 +45,25 @@ export default function Team() {
     enabled: !!project && !!projectUsers,
   })
 
+  const [inviteMsg, setInviteMsg] = useState('')
+
   const addMutation = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase.from('team_members').insert({ project_id: project.id, ...form })
-      if (error) throw error
+      const { data, error } = await supabase.functions.invoke('invite-member', {
+        body: { name: form.name, email: form.email, role: form.role },
+      })
+      if (error) throw new Error(error.message || 'Erro ao convidar')
+      if (!data.success) throw new Error(data.error || 'Erro ao convidar')
+      return data
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['team_members'] })
+      queryClient.invalidateQueries({ queryKey: ['project_users'] })
       queryClient.invalidateQueries({ queryKey: ['team_count'] })
       setForm({ name: '', email: '', role: '' })
       setShowForm(false)
+      setInviteMsg(data.message)
+      setTimeout(() => setInviteMsg(''), 5000)
     },
   })
 
@@ -84,6 +93,24 @@ export default function Team() {
 
   return (
     <div className="px-4 pt-4 lg:px-0">
+      {/* Invite success message */}
+      {inviteMsg && (
+        <div className="bg-secondary/10 border border-secondary/20 rounded-2xl p-4 mb-4 flex items-start gap-3">
+          <CheckCircle2 className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-semibold text-secondary">Convite enviado!</p>
+            <p className="text-xs text-text-muted mt-0.5">{inviteMsg}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Error message */}
+      {addMutation.isError && (
+        <div className="bg-danger/10 border border-danger/20 rounded-2xl p-4 mb-4">
+          <p className="text-sm font-semibold text-danger">{addMutation.error?.message}</p>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-linear-to-br from-teal-500 to-emerald-600 rounded-3xl p-5 mb-5 shadow-lg shadow-teal-500/20">
         <div className="flex items-center justify-between">
@@ -189,8 +216,8 @@ export default function Team() {
               disabled={addMutation.isPending}
               className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-50 active:scale-[0.98] transition-transform"
             >
-              {addMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
-              Adicionar
+              {addMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
+              Enviar convite
             </button>
           </form>
         </div>
