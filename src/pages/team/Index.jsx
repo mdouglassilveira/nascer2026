@@ -49,11 +49,17 @@ export default function Team() {
 
   const addMutation = useMutation({
     mutationFn: async () => {
-      const { data, error } = await supabase.functions.invoke('invite-member', {
-        body: { name: form.name, email: form.email, role: form.role },
+      const { data: { session } } = await supabase.auth.getSession()
+      const res = await fetch('/api/invite-member', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ name: form.name, email: form.email, role: form.role }),
       })
-      if (error) throw new Error(error.message || 'Erro ao convidar')
-      if (!data.success) throw new Error(data.error || 'Erro ao convidar')
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.error || 'Erro ao convidar')
       return data
     },
     onSuccess: (data) => {
