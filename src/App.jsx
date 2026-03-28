@@ -18,6 +18,7 @@ import EventDetail from './pages/schedule/Detail'
 import Contents from './pages/contents/Index'
 import ContentDetail from './pages/contents/Detail'
 import Tools from './pages/tools/Index'
+import ResetPassword from './pages/ResetPassword'
 import UpdatePrompt from './components/UpdatePrompt'
 
 const queryClient = new QueryClient({
@@ -36,6 +37,7 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route
               element={
                 <ProtectedRoute>
