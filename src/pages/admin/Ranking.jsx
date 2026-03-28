@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { useAdminContext } from '../../hooks/useAdminContext'
 import Loading from '../../components/Loading'
 import { Trophy, Medal, Filter } from 'lucide-react'
 
 export default function Ranking() {
+  const ctx = useAdminContext()
   const [centerFilter, setCenterFilter] = useState('all')
 
   const { data: centers } = useQuery({
@@ -17,14 +19,19 @@ export default function Ranking() {
   })
 
   const { data: ranking, isLoading } = useQuery({
-    queryKey: ['ranking'],
+    queryKey: ['ranking', ctx?.centerId],
     queryFn: async () => {
-      const { data } = await supabase.from('vw_enrollment_ranking').select('*')
+      let query = supabase.from('vw_enrollment_ranking').select('*')
+      if (ctx.isCoordinator && ctx.centerId) {
+        query = query.eq('center_id', ctx.centerId)
+      }
+      const { data } = await query
       return data || []
     },
+    enabled: !!ctx,
   })
 
-  if (isLoading) return <Loading />
+  if (isLoading || ctx?.isLoading) return <Loading />
 
   const filtered = centerFilter === 'all'
     ? ranking
@@ -37,7 +44,8 @@ export default function Ranking() {
         <span className="text-sm text-text-muted">{filtered?.length || 0} inscrições</span>
       </div>
 
-      {/* Filter */}
+      {/* Filter (only for admin) */}
+      {ctx?.isAdmin && (
       <div className="mb-5">
         <select value={centerFilter} onChange={e => setCenterFilter(e.target.value)} className="input-field w-auto min-w-[200px]">
           <option value="all">Todos os centros</option>
@@ -46,6 +54,7 @@ export default function Ranking() {
           ))}
         </select>
       </div>
+      )}
 
       {/* Ranking list */}
       <div className="bg-card rounded-2xl border border-border/50 shadow-sm overflow-hidden">

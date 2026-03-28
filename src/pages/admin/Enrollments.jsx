@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { useAdminContext } from '../../hooks/useAdminContext'
 import Loading from '../../components/Loading'
-import { Search, Filter, ChevronRight, FileEdit, CheckCircle2, Clock } from 'lucide-react'
+import { Search, ChevronRight, MapPin } from 'lucide-react'
 
 const STATUS_CONFIG = {
   rascunho: { label: 'Rascunho', color: 'bg-warning/10 text-warning' },
@@ -13,6 +14,7 @@ const STATUS_CONFIG = {
 }
 
 export default function Enrollments() {
+  const ctx = useAdminContext()
   const [statusFilter, setStatusFilter] = useState('all')
   const [centerFilter, setCenterFilter] = useState('all')
   const [search, setSearch] = useState('')
@@ -26,17 +28,25 @@ export default function Enrollments() {
   })
 
   const { data: enrollments, isLoading } = useQuery({
-    queryKey: ['admin-enrollments'],
+    queryKey: ['admin-enrollments', ctx?.centerId],
     queryFn: async () => {
-      const { data } = await supabase
+      let query = supabase
         .from('enrollments')
         .select('id, user_id, full_name, phone, project_title, status, form_step, center_id, submitted_at, created_at, centers(name, city)')
         .order('created_at', { ascending: false })
+
+      // Coordenador: only their center
+      if (ctx.isCoordinator && ctx.centerId) {
+        query = query.eq('center_id', ctx.centerId)
+      }
+
+      const { data } = await query
       return data || []
     },
+    enabled: !!ctx,
   })
 
-  if (isLoading) return <Loading />
+  if (isLoading || ctx?.isLoading) return <Loading />
 
   const filtered = enrollments?.filter(e => {
     if (statusFilter !== 'all' && e.status !== statusFilter) return false
@@ -51,7 +61,14 @@ export default function Enrollments() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-extrabold">Inscrições</h1>
+        <div>
+          <h1 className="text-2xl font-extrabold">Inscrições</h1>
+          {ctx?.isCoordinator && ctx.center && (
+            <div className="flex items-center gap-1 text-xs text-primary font-medium mt-1">
+              <MapPin className="w-3 h-3" /> {ctx.center.name} - {ctx.center.city}
+            </div>
+          )}
+        </div>
         <span className="text-sm text-text-muted">{filtered?.length || 0} resultados</span>
       </div>
 
@@ -74,12 +91,15 @@ export default function Enrollments() {
           <option value="aprovada">Aprovada</option>
           <option value="desistente">Desistente</option>
         </select>
-        <select value={centerFilter} onChange={e => setCenterFilter(e.target.value)} className="input-field w-auto min-w-[180px]">
-          <option value="all">Todos os centros</option>
-          {centers?.map(c => (
-            <option key={c.id} value={c.id}>{c.name} - {c.city}</option>
-          ))}
-        </select>
+        {/* Center filter only for admin */}
+        {ctx?.isAdmin && (
+          <select value={centerFilter} onChange={e => setCenterFilter(e.target.value)} className="input-field w-auto min-w-[180px]">
+            <option value="all">Todos os centros</option>
+            {centers?.map(c => (
+              <option key={c.id} value={c.id}>{c.name} - {c.city}</option>
+            ))}
+          </select>
+        )}
       </div>
 
       {/* List */}
@@ -101,7 +121,7 @@ export default function Enrollments() {
                 </div>
                 <p className="text-xs text-text-muted truncate">{e.project_title || 'Projeto não informado'}</p>
                 <div className="flex items-center gap-3 mt-1">
-                  <span className="text-[10px] text-text-muted">{e.centers?.name} - {e.centers?.city}</span>
+                  {ctx?.isAdmin && <span className="text-[10px] text-text-muted">{e.centers?.name} - {e.centers?.city}</span>}
                   {e.status === 'rascunho' && (
                     <span className="text-[10px] text-warning font-medium">Etapa {e.form_step + 1}/4</span>
                   )}

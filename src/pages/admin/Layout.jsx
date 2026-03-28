@@ -1,21 +1,29 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
-import { LayoutDashboard, ClipboardList, Award, Users, LogOut, Sparkles } from 'lucide-react'
-
-const navItems = [
-  { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
-  { to: '/admin/inscricoes', icon: ClipboardList, label: 'Inscrições' },
-  { to: '/admin/avaliacoes', icon: Award, label: 'Avaliar' },
-  { to: '/admin/ranking', icon: Users, label: 'Ranking' },
-]
+import { useAdminContext } from '../../hooks/useAdminContext'
+import { LayoutDashboard, ClipboardList, Award, Users, LogOut, Sparkles, MapPin } from 'lucide-react'
 
 export default function AdminLayout() {
   const { signOut, user } = useAuth()
+  const ctx = useAdminContext()
   const navigate = useNavigate()
 
   const handleSignOut = async () => {
     await signOut()
     navigate('/login')
+  }
+
+  const navItems = [
+    { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true, show: true },
+    { to: '/admin/inscricoes', icon: ClipboardList, label: 'Inscrições', show: true },
+    { to: '/admin/avaliacoes', icon: Award, label: 'Avaliar', show: ctx?.isAdmin || ctx?.isEvaluator },
+    { to: '/admin/ranking', icon: Users, label: 'Ranking', show: true },
+  ]
+
+  const roleLabel = {
+    admin: 'Admin',
+    coordenador: 'Coordenador',
+    avaliador: 'Avaliador',
   }
 
   return (
@@ -28,7 +36,14 @@ export default function AdminLayout() {
               <Sparkles className="w-4 h-4 text-white" />
             </div>
             <span className="font-bold text-sm">Nascer 2026</span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary">Admin</span>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+              {roleLabel[ctx?.role] || 'Staff'}
+            </span>
+            {ctx?.isCoordinator && ctx.center && (
+              <span className="text-[10px] font-medium text-text-muted hidden sm:flex items-center gap-1">
+                <MapPin className="w-3 h-3" /> {ctx.center.name}
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-text-muted hidden sm:block">{user?.email}</span>
@@ -42,7 +57,7 @@ export default function AdminLayout() {
       {/* Nav tabs */}
       <nav className="bg-white border-b border-border/50">
         <div className="max-w-6xl mx-auto flex gap-1 px-4 overflow-x-auto">
-          {navItems.map(({ to, icon: Icon, label, end }) => (
+          {navItems.filter(n => n.show).map(({ to, icon: Icon, label, end }) => (
             <NavLink
               key={to}
               to={to}

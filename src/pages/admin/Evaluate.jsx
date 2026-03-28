@@ -3,11 +3,13 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useAdminContext } from '../../hooks/useAdminContext'
 import Loading from '../../components/Loading'
 import { Award, CheckCircle2, ChevronRight, Loader2, Star } from 'lucide-react'
 
 export default function Evaluate() {
   const { user } = useAuth()
+  const ctx = useAdminContext()
   const queryClient = useQueryClient()
   const [selected, setSelected] = useState(null)
   const [scores, setScores] = useState({ score_problem: 5, score_market: 5, score_team: 5, score_resources: 5, comment: '' })
@@ -21,17 +23,22 @@ export default function Evaluate() {
     },
   })
 
-  // Get submitted enrollments
+  // Get submitted enrollments (coordenador sees only their center)
   const { data: enrollments, isLoading } = useQuery({
-    queryKey: ['enrollments-to-evaluate'],
+    queryKey: ['enrollments-to-evaluate', ctx?.centerId],
     queryFn: async () => {
-      const { data } = await supabase
+      let query = supabase
         .from('enrollments')
         .select('id, full_name, project_title, center_id, centers(name, city)')
         .eq('status', 'submetida')
         .order('created_at')
+      if (ctx.isCoordinator && ctx.centerId) {
+        query = query.eq('center_id', ctx.centerId)
+      }
+      const { data } = await query
       return data || []
     },
+    enabled: !!ctx,
   })
 
   // Get my evaluations
