@@ -18,6 +18,7 @@ import EventDetail from './pages/schedule/Detail'
 import Contents from './pages/contents/Index'
 import ContentDetail from './pages/contents/Detail'
 import Tools from './pages/tools/Index'
+import UpdatePrompt from './components/UpdatePrompt'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,6 +60,7 @@ export default function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+        <UpdatePrompt />
       </AuthProvider>
     </QueryClientProvider>
   )
