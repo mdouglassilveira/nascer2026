@@ -1,20 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
-import { supabase } from '../../lib/supabase'
-import { useAuth } from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
+import { useProject } from '../../hooks/useProject'
 import { FolderKanban, Lightbulb, Target, TrendingUp, Layers } from 'lucide-react'
 
 export default function Project() {
-  const { user } = useAuth()
-
-  const { data: project, isLoading } = useQuery({
-    queryKey: ['project', user?.id],
-    queryFn: async () => {
-      const { data } = await supabase.from('projects').select('*').eq('user_id', user.id).single()
-      return data
-    },
-    enabled: !!user,
-  })
+  const { project, isLoading } = useProject()
 
   if (isLoading) return <Loading />
 

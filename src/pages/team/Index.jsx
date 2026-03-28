@@ -1,26 +1,17 @@
 import { useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
-import { useAuth } from '../../hooks/useAuth'
+import { useProject } from '../../hooks/useProject'
 import Loading from '../../components/Loading'
 import { UserPlus, Trash2, Loader2, Users, X } from 'lucide-react'
 
 const MAX_MEMBERS = 5
 
 export default function Team() {
-  const { user } = useAuth()
+  const { project } = useProject()
   const queryClient = useQueryClient()
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', role: '' })
-
-  const { data: project } = useQuery({
-    queryKey: ['project', user?.id],
-    queryFn: async () => {
-      const { data } = await supabase.from('projects').select('id').eq('user_id', user.id).single()
-      return data
-    },
-    enabled: !!user,
-  })
 
   const { data: members, isLoading } = useQuery({
     queryKey: ['team_members', project?.id],

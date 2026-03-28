@@ -8,33 +8,22 @@ export function useProject() {
   const { data: project, isLoading } = useQuery({
     queryKey: ['project', user?.id],
     queryFn: async () => {
-      // First try: user owns a project
-      const { data: owned } = await supabase
+      // Get user's project_id from their profile
+      const { data: profile } = await supabase
+        .from('users')
+        .select('project_id')
+        .eq('id', user.id)
+        .single()
+
+      if (!profile?.project_id) return null
+
+      const { data: proj } = await supabase
         .from('projects')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('id', profile.project_id)
         .single()
 
-      if (owned) return owned
-
-      // Second try: user is a team member (match by email)
-      const { data: membership } = await supabase
-        .from('team_members')
-        .select('project_id')
-        .eq('email', user.email)
-        .limit(1)
-        .single()
-
-      if (membership) {
-        const { data: teamProject } = await supabase
-          .from('projects')
-          .select('*')
-          .eq('id', membership.project_id)
-          .single()
-        return teamProject
-      }
-
-      return null
+      return proj
     },
     enabled: !!user,
   })

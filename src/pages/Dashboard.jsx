@@ -30,27 +30,19 @@ export default function Dashboard() {
   const { data: profile } = useQuery({
     queryKey: ['profile', user?.id],
     queryFn: async () => {
-      const { data } = await supabase.from('users').select('full_name').eq('id', user.id).single()
+      const { data } = await supabase.from('users').select('full_name, project_id').eq('id', user.id).single()
       return data
     },
     enabled: !!user,
   })
 
   const { data: project, isLoading } = useQuery({
-    queryKey: ['project', user?.id],
+    queryKey: ['project', profile?.project_id],
     queryFn: async () => {
-      // Try owned project first
-      const { data: owned } = await supabase.from('projects').select('*').eq('user_id', user.id).single()
-      if (owned) return owned
-      // Try as team member
-      const { data: membership } = await supabase.from('team_members').select('project_id').eq('email', user.email).limit(1).single()
-      if (membership) {
-        const { data: teamProject } = await supabase.from('projects').select('*').eq('id', membership.project_id).single()
-        return teamProject
-      }
-      return null
+      const { data } = await supabase.from('projects').select('*').eq('id', profile.project_id).single()
+      return data
     },
-    enabled: !!user,
+    enabled: !!profile?.project_id,
   })
 
   const { data: progress } = useQuery({

@@ -17,18 +17,15 @@ export default function Attendance() {
     },
   })
 
-  // Get all team member user IDs for this project
+  // Get all users in the same project
   const { data: teamUserIds } = useQuery({
     queryKey: ['team_user_ids', project?.id],
     queryFn: async () => {
-      const ids = [project.user_id]
-      const { data: members } = await supabase
-        .from('team_members')
-        .select('user_id')
+      const { data } = await supabase
+        .from('users')
+        .select('id')
         .eq('project_id', project.id)
-        .not('user_id', 'is', null)
-      if (members) ids.push(...members.map(m => m.user_id))
-      return ids
+      return data?.map(u => u.id) || [user.id]
     },
     enabled: !!project,
   })
