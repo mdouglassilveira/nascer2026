@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
+import { maskPhone } from '../../lib/masks'
 import { Loader2, ArrowRight, User } from 'lucide-react'
 
 export default function Step1Personal({ form, update, onNext, saving }) {
@@ -34,7 +35,7 @@ export default function Step1Personal({ form, update, onNext, saving }) {
         <input
           type="tel"
           value={form.phone || ''}
-          onChange={e => update({ phone: e.target.value })}
+          onChange={e => update({ phone: maskPhone(e.target.value) })}
           placeholder="(00) 00000-0000"
           className="input-field"
         />

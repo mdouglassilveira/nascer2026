@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
 import { Save, Loader2, User, Phone, Mail, Pencil, Camera } from 'lucide-react'
+import { maskPhone } from '../../lib/masks'
 
 export default function Profile() {
   const { user } = useAuth()
@@ -130,7 +131,7 @@ export default function Profile() {
         >
           <h3 className="font-bold text-sm mb-1">Editar perfil</h3>
           <InputField label="Nome completo" value={form.full_name} onChange={v => setForm(f => ({ ...f, full_name: v }))} placeholder="Seu nome completo" />
-          <InputField label="Telefone" value={form.phone} type="tel" onChange={v => setForm(f => ({ ...f, phone: v }))} placeholder="(00) 00000-0000" />
+          <InputField label="Telefone" value={form.phone} type="tel" onChange={v => setForm(f => ({ ...f, phone: maskPhone(v) }))} placeholder="(00) 00000-0000" />
           <div>
             <label className="block text-xs font-semibold text-text-muted mb-1.5">Bio</label>
             <textarea

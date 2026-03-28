@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Loader2, ArrowLeft, Send, Upload, FileCheck, Shield, ExternalLink } from 'lucide-react'
+import { maskCPF, maskCNPJ, maskCEP } from '../../lib/masks'
+import { Loader2, ArrowLeft, Send, Upload, FileCheck, Shield } from 'lucide-react'
 
 const ELIG_QUESTIONS = [
   { key: 'elig_company_age', label: 'A empresa tem menos de 12 meses de CNPJ?' },
@@ -114,7 +115,7 @@ export default function Step4Eligibility({ form, update, onBack, onSubmit, savin
             </select>
           </Field>
           <Field label="CNPJ">
-            <input type="text" value={form.cnpj || ''} onChange={e => update({ cnpj: e.target.value })} placeholder="00.000.000/0000-00" className="input-field" />
+            <input type="text" value={form.cnpj || ''} onChange={e => update({ cnpj: maskCNPJ(e.target.value) })} placeholder="00.000.000/0000-00" className="input-field" />
           </Field>
           <FileUpload label="Contrato Social" field="doc_social_contract_url" form={form} uploading={uploading} onUpload={(f) => handleUpload(f, 'contrato-social', 'doc_social_contract_url')} />
           <FileUpload label="Cartão CNPJ" field="doc_cnpj_card_url" form={form} uploading={uploading} onUpload={(f) => handleUpload(f, 'cartao-cnpj', 'doc_cnpj_card_url')} />
@@ -126,7 +127,7 @@ export default function Step4Eligibility({ form, update, onBack, onSubmit, savin
       {form.enrollment_type && (
         <Section title="Dados pessoais">
           <Field label="CPF">
-            <input type="text" value={form.cpf || ''} onChange={e => update({ cpf: e.target.value })} placeholder="000.000.000-00" className="input-field" />
+            <input type="text" value={form.cpf || ''} onChange={e => update({ cpf: maskCPF(e.target.value) })} placeholder="000.000.000-00" className="input-field" />
           </Field>
           <FileUpload label="Documento de identidade" field="doc_identity_url" form={form} uploading={uploading} onUpload={(f) => handleUpload(f, 'identidade', 'doc_identity_url')} />
 
@@ -145,7 +146,7 @@ export default function Step4Eligibility({ form, update, onBack, onSubmit, savin
         <Section title="Endereço">
           <Field label="CEP">
             <div className="flex gap-2">
-              <input type="text" value={form.cep || ''} onChange={e => update({ cep: e.target.value })} placeholder="00000-000" className="input-field flex-1" />
+              <input type="text" value={form.cep || ''} onChange={e => update({ cep: maskCEP(e.target.value) })} placeholder="00000-000" className="input-field flex-1" />
               <button type="button" onClick={handleCep} className="px-4 py-3 rounded-2xl bg-primary/10 text-primary text-xs font-bold active:bg-primary/20">
                 Buscar
               </button>
