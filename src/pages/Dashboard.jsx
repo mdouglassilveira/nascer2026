@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
+import { useProject } from '../hooks/useProject'
 import Loading from '../components/Loading'
 import {
   User, FolderKanban, ClipboardList, Brain, Stethoscope,
@@ -26,23 +27,15 @@ const modules = [
 
 export default function Dashboard() {
   const { user } = useAuth()
+  const { project, participation, edition, isLoading } = useProject()
 
   const { data: profile } = useQuery({
     queryKey: ['profile', user?.id],
     queryFn: async () => {
-      const { data } = await supabase.from('users').select('full_name, project_id').eq('id', user.id).single()
+      const { data } = await supabase.from('users').select('full_name').eq('id', user.id).single()
       return data
     },
     enabled: !!user,
-  })
-
-  const { data: project, isLoading } = useQuery({
-    queryKey: ['project', profile?.project_id],
-    queryFn: async () => {
-      const { data } = await supabase.from('projects').select('*').eq('id', profile.project_id).single()
-      return data
-    },
-    enabled: !!profile?.project_id,
   })
 
   const { data: progress } = useQuery({
@@ -58,11 +51,15 @@ export default function Dashboard() {
   })
 
   const { data: attendanceCount } = useQuery({
-    queryKey: ['attendance_count', project?.id],
+    queryKey: ['attendance_count', project?.id, edition?.id],
     queryFn: async () => {
-      // Get all team user IDs
-      const { data: teamUsers } = await supabase.from('users').select('id').eq('project_id', project.id)
-      const ids = teamUsers?.map(u => u.id) || []
+      // Get team user IDs from edition_participants
+      const { data: teamParticipants } = await supabase
+        .from('edition_participants')
+        .select('user_id')
+        .eq('project_id', project.id)
+        .eq('edition_id', edition.id)
+      const ids = teamParticipants?.map(p => p.user_id) || []
       if (!ids.length) return { present: 0, total: 0 }
 
       const { data: atts } = await supabase.from('attendances').select('event_id, status').in('user_id', ids)
@@ -74,16 +71,20 @@ export default function Dashboard() {
       }
       return { present: presentEvents.size, total: totalEvents || 0 }
     },
-    enabled: !!project,
+    enabled: !!project && !!edition,
   })
 
   const { data: teamCount } = useQuery({
-    queryKey: ['team_count', project?.id],
+    queryKey: ['team_count', project?.id, edition?.id],
     queryFn: async () => {
-      const { count } = await supabase.from('users').select('*', { count: 'exact', head: true }).eq('project_id', project.id)
+      const { count } = await supabase
+        .from('edition_participants')
+        .select('*', { count: 'exact', head: true })
+        .eq('project_id', project.id)
+        .eq('edition_id', edition.id)
       return count || 1
     },
-    enabled: !!project,
+    enabled: !!project && !!edition,
   })
 
   if (isLoading) return <Loading />

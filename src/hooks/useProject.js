@@ -5,28 +5,39 @@ import { useAuth } from './useAuth'
 export function useProject() {
   const { user } = useAuth()
 
-  const { data: project, isLoading } = useQuery({
-    queryKey: ['project', user?.id],
+  const { data, isLoading } = useQuery({
+    queryKey: ['my-participation', user?.id],
     queryFn: async () => {
-      // Get user's project_id from their profile
-      const { data: profile } = await supabase
-        .from('users')
-        .select('project_id')
-        .eq('id', user.id)
+      // Get active edition
+      const { data: edition } = await supabase
+        .from('editions')
+        .select('id')
+        .eq('active', true)
         .single()
 
-      if (!profile?.project_id) return null
+      if (!edition) return { project: null, participation: null, edition: null }
 
-      const { data: proj } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('id', profile.project_id)
+      // Get user's participation in this edition
+      const { data: participation } = await supabase
+        .from('edition_participants')
+        .select('*, project:projects(*), center:centers(id, name, city)')
+        .eq('user_id', user.id)
+        .eq('edition_id', edition.id)
         .single()
 
-      return proj
+      return {
+        project: participation?.project || null,
+        participation: participation || null,
+        edition,
+      }
     },
     enabled: !!user,
   })
 
-  return { project, isLoading }
+  return {
+    project: data?.project || null,
+    participation: data?.participation || null,
+    edition: data?.edition || null,
+    isLoading,
+  }
 }

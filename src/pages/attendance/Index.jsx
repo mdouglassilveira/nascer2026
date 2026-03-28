@@ -22,10 +22,10 @@ export default function Attendance() {
     queryKey: ['team_user_ids', project?.id],
     queryFn: async () => {
       const { data } = await supabase
-        .from('users')
-        .select('id')
+        .from('edition_participants')
+        .select('user_id')
         .eq('project_id', project.id)
-      return data?.map(u => u.id) || [user.id]
+      return data?.map(p => p.user_id) || [user.id]
     },
     enabled: !!project,
   })

@@ -16,16 +16,23 @@ export default function Team() {
   const [form, setForm] = useState({ name: '', email: '', role: '' })
   const [inviteMsg, setInviteMsg] = useState('')
 
-  // Get ALL users linked to this project (active + invited)
+  // Get ALL participants of this project in the active edition
   const { data: members, isLoading } = useQuery({
     queryKey: ['project_members', project?.id],
     queryFn: async () => {
       const { data } = await supabase
-        .from('users')
-        .select('id, full_name, email, role, avatar_url, status')
+        .from('edition_participants')
+        .select('id, role, status, user:users(id, full_name, email, avatar_url)')
         .eq('project_id', project.id)
         .order('created_at', { ascending: true })
-      return data || []
+      return (data || []).map(p => ({
+        id: p.user?.id,
+        full_name: p.user?.full_name,
+        email: p.user?.email,
+        avatar_url: p.user?.avatar_url,
+        role: p.role,
+        status: p.status,
+      }))
     },
     enabled: !!project,
   })

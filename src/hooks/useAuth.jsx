@@ -17,7 +17,9 @@ export function AuthProvider({ children }) {
       setUser(session?.user ?? null)
       // Mark user as ativo on any login/recovery event
       if ((_event === 'SIGNED_IN' || _event === 'PASSWORD_RECOVERY' || _event === 'USER_UPDATED') && session?.user) {
+        // Update both users.status and edition_participants.status
         supabase.from('users').update({ status: 'ativo' }).eq('id', session.user.id).eq('status', 'convidado').then(() => {})
+        supabase.from('edition_participants').update({ status: 'ativo' }).eq('user_id', session.user.id).eq('status', 'convidado').then(() => {})
       }
     })
 
