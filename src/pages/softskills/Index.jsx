@@ -48,7 +48,10 @@ export default function SoftSkills() {
         if (error) throw error
       }
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['soft_skills'] }),
+    onSuccess: () => {
+      setAnswers({})
+      queryClient.invalidateQueries({ queryKey: ['soft_skills'] })
+    },
   })
 
   if (isLoading) return <Loading />

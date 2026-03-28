@@ -47,7 +47,10 @@ export default function Diagnostic() {
         if (error) throw error
       }
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['diagnostics'] }),
+    onSuccess: () => {
+      setAnswers({})
+      queryClient.invalidateQueries({ queryKey: ['diagnostics'] })
+    },
   })
 
   if (isLoading) return <Loading />
