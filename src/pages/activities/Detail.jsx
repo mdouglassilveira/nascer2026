@@ -109,7 +109,8 @@ export default function ActivityDetail() {
                   value={answers[field.name] || ''}
                   onChange={e => setAnswers(a => ({ ...a, [field.name]: e.target.value }))}
                   rows={3}
-                  className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                  placeholder={`Descreva aqui...`}
+                  className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
                   required={field.required}
                 />
               ) : field.type === 'select' ? (
@@ -119,7 +120,7 @@ export default function ActivityDetail() {
                   className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                   required={field.required}
                 >
-                  <option value="">Selecione...</option>
+                  <option value="">Selecione uma opção...</option>
                   {field.options?.map((opt, j) => <option key={j} value={opt}>{opt}</option>)}
                 </select>
               ) : (
@@ -127,7 +128,8 @@ export default function ActivityDetail() {
                   type="text"
                   value={answers[field.name] || ''}
                   onChange={e => setAnswers(a => ({ ...a, [field.name]: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  placeholder={`Informe aqui...`}
+                  className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50"
                   required={field.required}
                 />
               )}
@@ -141,7 +143,8 @@ export default function ActivityDetail() {
                 value={answers.response || ''}
                 onChange={e => setAnswers(a => ({ ...a, response: e.target.value }))}
                 rows={4}
-                className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                placeholder="Escreva sua resposta aqui..."
+                className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
                 required
               />
             </div>
