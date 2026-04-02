@@ -7,7 +7,7 @@ import { Radar, ResponsiveContainer, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
 import { Brain, Loader2, RefreshCw, Send, ArrowRight, ArrowLeft } from 'lucide-react'
 
 // =====================================================
-// 19 STATEMENTS
+// 20 STATEMENTS
 // =====================================================
 const STATEMENTS = [
   { id: 1, text: 'Mesmo com dedicação, talvez eu não desenvolva novas habilidades.' },
@@ -21,14 +21,15 @@ const STATEMENTS = [
   { id: 9, text: 'Encaro feedbacks negativos sobre o meu trabalho como algo pessoal.' },
   { id: 10, text: 'Sempre abraço os desafios e procuro vencê-los.' },
   { id: 11, text: 'Eu sou aquilo que eu sou.' },
-  { id: 12, text: 'Problemas só servem para atrapalhar a jornada.' },
+  { id: 12, text: 'Problemas só servem para atrapalhar a jornada da startup.' },
   { id: 13, text: 'Sucesso deve ser para todos, servindo como fonte de inspiração.' },
   { id: 14, text: 'Quem é inteligente não precisa se esforçar tanto.' },
   { id: 15, text: 'Críticas são diferentes de feedbacks, elas não me fazem mudar.' },
-  { id: 16, text: 'Habilidades podem ser adquiridas através de dedicação.' },
-  { id: 17, text: 'Vale o esforço para chegar no topo e poder ficar na zona de conforto.' },
-  { id: 18, text: 'Só começo algo se tenho a sensação de que terei sucesso.' },
-  { id: 19, text: 'Preciso construir um bom produto para conquistar uma boa receita.' },
+  { id: 16, text: 'Todo mundo consegue aprender matemática.' },
+  { id: 17, text: 'Habilidades de super founders podem ser adquiridas através de dedicação.' },
+  { id: 18, text: 'Vale o esforço para chegar no topo e poder ficar na zona de conforto.' },
+  { id: 19, text: 'Só começo algo se tenho a sensação de que terei sucesso.' },
+  { id: 20, text: 'Preciso construir um bom produto para conquistar uma boa receita.' },
 ]
 
 // Response options
@@ -40,16 +41,16 @@ const OPTIONS = [
 ]
 
 // Negative statements (reverse scoring: 5 - score)
-const NEGATIVE_IDS = new Set([1, 4, 5, 6, 9, 11, 12, 14, 15, 18, 19])
+const NEGATIVE_IDS = new Set([1, 4, 5, 6, 9, 11, 12, 14, 15, 18, 19, 20])
 
 // Question → Dimension mapping
 const DIMENSIONS = {
   comunicacao: { label: 'Comunicação', questions: [9, 15] },
   lideranca: { label: 'Liderança', questions: [7, 10, 19] },
   resiliencia: { label: 'Resiliência', questions: [2, 3, 12, 18] },
-  criatividade: { label: 'Criatividade', questions: [1, 4, 8, 11, 14, 17] },
+  criatividade: { label: 'Criatividade', questions: [1, 4, 8, 11, 14, 16, 17] },
   trabalho_equipe: { label: 'Trabalho em equipe', questions: [5, 13] },
-  gestao_tempo: { label: 'Gestão de tempo', questions: [6, 16] },
+  gestao_tempo: { label: 'Gestão de tempo', questions: [6, 20] },
 }
 
 // =====================================================
