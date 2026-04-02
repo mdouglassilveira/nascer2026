@@ -25,14 +25,16 @@ export default function Team() {
         .select('id, role, status, user:users(id, full_name, email, avatar_url)')
         .eq('project_id', project.id)
         .order('created_at', { ascending: true })
-      return (data || []).map(p => ({
-        id: p.user?.id,
-        full_name: p.user?.full_name,
-        email: p.user?.email,
-        avatar_url: p.user?.avatar_url,
-        role: p.role,
-        status: p.status,
-      }))
+      return (data || [])
+        .filter(p => p.user)
+        .map(p => ({
+          id: p.user.id,
+          full_name: p.user.full_name,
+          email: p.user.email,
+          avatar_url: p.user.avatar_url,
+          role: p.role,
+          status: p.status,
+        }))
     },
     enabled: !!project,
   })
