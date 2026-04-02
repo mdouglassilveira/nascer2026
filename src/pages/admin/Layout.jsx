@@ -1,11 +1,13 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { useAdminContext } from '../../hooks/useAdminContext'
-import { LayoutDashboard, ClipboardList, Award, Users, LogOut, Sparkles, MapPin } from 'lucide-react'
+import { useDarkMode } from '../../hooks/useDarkMode'
+import { LayoutDashboard, ClipboardList, Award, Users, LogOut, Sparkles, MapPin, Sun, Moon } from 'lucide-react'
 
 export default function AdminLayout() {
   const { signOut, user } = useAuth()
   const ctx = useAdminContext()
+  const { dark, toggle: toggleDark } = useDarkMode()
   const navigate = useNavigate()
 
   const handleSignOut = async () => {
@@ -29,7 +31,7 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-bg">
       {/* Top bar */}
-      <header className="bg-white border-b border-border/50 sticky top-0 z-30">
+      <header className="bg-card border-b border-border/50 sticky top-0 z-30">
         <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary to-gradient-end flex items-center justify-center">
@@ -47,6 +49,9 @@ export default function AdminLayout() {
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-text-muted hidden sm:block">{user?.email}</span>
+            <button onClick={toggleDark} className="w-8 h-8 rounded-lg bg-bg border border-border/50 flex items-center justify-center">
+              {dark ? <Sun className="w-4 h-4 text-accent" /> : <Moon className="w-4 h-4 text-text-muted" />}
+            </button>
             <button onClick={handleSignOut} className="text-text-muted hover:text-danger">
               <LogOut className="w-4 h-4" />
             </button>
@@ -55,7 +60,7 @@ export default function AdminLayout() {
       </header>
 
       {/* Nav tabs */}
-      <nav className="bg-white border-b border-border/50">
+      <nav className="bg-card border-b border-border/50">
         <div className="max-w-6xl mx-auto flex gap-1 px-4 overflow-x-auto">
           {navItems.filter(n => n.show).map(({ to, icon: Icon, label, end }) => (
             <NavLink

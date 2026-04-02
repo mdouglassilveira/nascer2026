@@ -11,14 +11,14 @@ import {
 } from 'lucide-react'
 
 const quickActions = [
-  { to: '/atividades', icon: ClipboardList, label: 'Atividades', gradient: 'from-violet-500 to-purple-600' },
+  { to: '/atividades', icon: ClipboardList, label: 'Atividades', gradient: 'from-primary to-primary-light' },
   { to: '/cronograma', icon: Calendar, label: 'Agenda', gradient: 'from-blue-500 to-cyan-500' },
-  { to: '/conteudos', icon: BookOpen, label: 'Conteúdos', gradient: 'from-emerald-500 to-teal-500' },
-  { to: '/ferramentas', icon: Wrench, label: 'Ferramentas', gradient: 'from-orange-500 to-amber-500' },
+  { to: '/conteudos', icon: BookOpen, label: 'Conteúdos', gradient: 'from-secondary to-secondary-dark' },
+  { to: '/ferramentas', icon: Wrench, label: 'Ferramentas', gradient: 'from-amber-500 to-orange-500' },
 ]
 
 const modules = [
-  { to: '/projeto', icon: FolderKanban, label: 'Meu Projeto', color: 'text-purple-600 bg-purple-50' },
+  { to: '/projeto', icon: FolderKanban, label: 'Meu Projeto', color: 'text-primary bg-primary/10' },
   { to: '/soft-skills', icon: Brain, label: 'Soft Skills', color: 'text-pink-600 bg-pink-50' },
   { to: '/diagnostico', icon: Stethoscope, label: 'Diagnóstico', color: 'text-orange-600 bg-orange-50' },
   { to: '/equipe', icon: Users, label: 'Equipe', color: 'text-teal-600 bg-teal-50' },

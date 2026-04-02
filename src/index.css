@@ -1,24 +1,51 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #6C3CE1;
-  --color-primary-dark: #5228CC;
-  --color-primary-light: #8B5CF6;
-  --color-secondary: #06D6A0;
-  --color-secondary-dark: #05B384;
-  --color-accent: #FF6B6B;
-  --color-accent-light: #FF8E8E;
-  --color-warning: #FFD166;
-  --color-info: #118AB2;
-  --color-danger: #EF476F;
-  --color-bg: #F5F3FF;
-  --color-card: #ffffff;
-  --color-text: #1a1235;
-  --color-text-muted: #6B7194;
-  --color-border: #E8E5F0;
-  --color-gradient-start: #6C3CE1;
+  /* Primary - Royal Blue */
+  --color-primary: #1E3A8A;
+  --color-primary-dark: #172E6E;
+  --color-primary-light: #2563EB;
+  /* Secondary - Teal */
+  --color-secondary: #0D9488;
+  --color-secondary-dark: #0A7A70;
+  /* Accent */
+  --color-accent: #F59E0B;
+  --color-accent-light: #FBBF24;
+  /* Status */
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-info: #3B82F6;
+  /* Gradient endpoints */
+  --color-gradient-start: #1E3A8A;
+  --color-gradient-mid: #2563EB;
   --color-gradient-end: #3B82F6;
-  --color-gradient-accent: #06D6A0;
+
+  /* Light mode */
+  --color-bg: #F8FAFC;
+  --color-card: #FFFFFF;
+  --color-text: #0F172A;
+  --color-text-muted: #64748B;
+  --color-border: #E2E8F0;
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0F172A;
+    --color-card: #1E293B;
+    --color-text: #F1F5F9;
+    --color-text-muted: #94A3B8;
+    --color-border: #334155;
+  }
+}
+
+/* Manual dark mode class */
+.dark {
+  --color-bg: #0F172A;
+  --color-card: #1E293B;
+  --color-text: #F1F5F9;
+  --color-text-muted: #94A3B8;
+  --color-border: #334155;
 }
 
 body {
@@ -29,6 +56,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior: none;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 * {
@@ -39,17 +67,15 @@ input, textarea, select {
   font-family: inherit;
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Hide scrollbar on mobile for cleaner look */
 ::-webkit-scrollbar {
   width: 4px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d4d0e0;
+  background: var(--color-border);
   border-radius: 4px;
 }
 
@@ -59,23 +85,26 @@ html {
   padding: 0.75rem 1rem;
   border-radius: 1rem;
   background: var(--color-bg);
-  border: none;
+  border: 1px solid var(--color-border);
   font-size: 0.875rem;
   color: var(--color-text);
   outline: none;
   -webkit-appearance: none;
   appearance: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .input-field:focus {
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-light) 15%, transparent);
 }
 .input-field::placeholder {
-  color: color-mix(in srgb, var(--color-text-muted) 50%, transparent);
+  color: var(--color-text-muted);
+  opacity: 0.6;
 }
 
 /* Select styling */
 select.input-field {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7194' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 2.5rem;
@@ -83,12 +112,8 @@ select.input-field {
 }
 select.input-field option {
   padding: 0.75rem;
-  background: white;
+  background: var(--color-card);
   color: var(--color-text);
-}
-select.input-field:invalid,
-select.input-field option[value=""] {
-  color: color-mix(in srgb, var(--color-text-muted) 60%, transparent);
 }
 
 /* Safe area for PWA on notched devices */

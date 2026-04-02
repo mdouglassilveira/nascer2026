@@ -1,9 +1,10 @@
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { useDarkMode } from '../hooks/useDarkMode'
 import {
   LayoutDashboard, User, FolderKanban, ClipboardList, Brain,
   Stethoscope, Users, CalendarCheck, Calendar, BookOpen,
-  Wrench, LogOut, ChevronRight, Sparkles, X
+  Wrench, LogOut, ChevronRight, Sparkles, X, Sun, Moon
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -26,6 +27,7 @@ const moreItems = [
 
 export default function Layout() {
   const { signOut, user } = useAuth()
+  const { dark, toggle: toggleDark } = useDarkMode()
   const navigate = useNavigate()
   const location = useLocation()
   const [showMore, setShowMore] = useState(false)
@@ -40,24 +42,22 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col bg-bg">
       {/* Top bar - mobile */}
-      <header className="lg:hidden sticky top-0 z-30 bg-white/80 backdrop-blur-lg border-b border-border/50">
+      <header className="lg:hidden sticky top-0 z-30 bg-card/80 backdrop-blur-lg border-b border-border/50">
         <div className="flex items-center justify-between px-5 py-3">
-          <div>
-            <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-gradient-end bg-clip-text text-transparent">
-              {pageTitle}
-            </h1>
+          <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
+          <div className="flex items-center gap-2">
+            <button onClick={toggleDark} className="w-9 h-9 rounded-full bg-bg flex items-center justify-center border border-border/50">
+              {dark ? <Sun className="w-4 h-4 text-accent" /> : <Moon className="w-4 h-4 text-text-muted" />}
+            </button>
+            <button onClick={() => setShowMore(true)} className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-primary" />
+            </button>
           </div>
-          <button
-            onClick={() => setShowMore(true)}
-            className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center"
-          >
-            <Sparkles className="w-4 h-4 text-primary" />
-          </button>
         </div>
       </header>
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex fixed top-0 left-0 h-full w-72 bg-white border-r border-border flex-col z-40">
+      <aside className="hidden lg:flex fixed top-0 left-0 h-full w-72 bg-card border-r border-border flex-col z-40">
         <div className="px-6 py-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-gradient-end flex items-center justify-center">
@@ -79,7 +79,7 @@ export default function Layout() {
               className={({ isActive }) => `
                 flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all
                 ${isActive
-                  ? 'bg-gradient-to-r from-primary to-primary-light text-white shadow-md shadow-primary/25'
+                  ? 'bg-primary text-white shadow-sm'
                   : 'text-text-muted hover:bg-primary/5 hover:text-text'
                 }
               `}
@@ -90,14 +90,17 @@ export default function Layout() {
           ))}
         </nav>
 
-        <div className="p-4 mx-3 mb-3 rounded-xl bg-gradient-to-r from-primary/5 to-primary/10">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-              <User className="w-4 h-4 text-primary" />
-            </div>
-            <div className="min-w-0">
+        <div className="p-4 mx-3 mb-3 rounded-xl bg-bg border border-border/50">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <User className="w-4 h-4 text-primary" />
+              </div>
               <p className="text-xs font-medium truncate">{user?.email}</p>
             </div>
+            <button onClick={toggleDark} className="w-7 h-7 rounded-lg bg-card border border-border/50 flex items-center justify-center shrink-0">
+              {dark ? <Sun className="w-3.5 h-3.5 text-accent" /> : <Moon className="w-3.5 h-3.5 text-text-muted" />}
+            </button>
           </div>
           <button
             onClick={handleSignOut}
@@ -113,10 +116,10 @@ export default function Layout() {
       {showMore && (
         <>
           <div className="fixed inset-0 bg-black/40 z-50 lg:hidden" onClick={() => setShowMore(false)} />
-          <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white rounded-t-3xl max-h-[85vh] overflow-y-auto animate-slide-up">
+          <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-card rounded-t-3xl max-h-[85vh] overflow-y-auto animate-slide-up">
             <div className="flex items-center justify-between px-6 pt-5 pb-3">
               <h3 className="text-lg font-bold">Menu</h3>
-              <button onClick={() => setShowMore(false)} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+              <button onClick={() => setShowMore(false)} className="w-8 h-8 rounded-full bg-bg flex items-center justify-center">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -167,7 +170,7 @@ export default function Layout() {
       </main>
 
       {/* Bottom navigation - mobile */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-lg border-t border-border/50">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-card/90 backdrop-blur-lg border-t border-border/50">
         <div className="flex justify-around items-center px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {bottomNavItems.map(({ to, icon: Icon, label }) => (
             <NavLink
