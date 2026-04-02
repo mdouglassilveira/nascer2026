@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Primary - Royal Blue */
   --color-primary: #1E3A8A;
@@ -20,26 +22,22 @@
   --color-gradient-mid: #2563EB;
   --color-gradient-end: #3B82F6;
 
-  /* Light mode */
+  /* Light mode defaults */
   --color-bg: #F8FAFC;
   --color-card: #FFFFFF;
   --color-text: #0F172A;
   --color-text-muted: #64748B;
   --color-border: #E2E8F0;
+
+  /* Dark mode overrides */
+  --color-bg--dark: #0F172A;
+  --color-card--dark: #1E293B;
+  --color-text--dark: #F1F5F9;
+  --color-text-muted--dark: #94A3B8;
+  --color-border--dark: #334155;
 }
 
-/* Dark mode overrides */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0F172A;
-    --color-card: #1E293B;
-    --color-text: #F1F5F9;
-    --color-text-muted: #94A3B8;
-    --color-border: #334155;
-  }
-}
-
-/* Manual dark mode class */
+/* Dark mode via class - override CSS variables */
 .dark {
   --color-bg: #0F172A;
   --color-card: #1E293B;
@@ -56,7 +54,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior: none;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 * {
