@@ -154,7 +154,7 @@ export default function SoftSkills() {
     return (
       <div className="px-4 pt-4 lg:px-0 max-w-lg mx-auto">
         {/* Header */}
-        <div className="bg-card rounded-3xl shadow-sm shadow-black/5 border border-border/50 overflow-hidden">
+        <div className="bg-card rounded-xl shadow-ambient-sm overflow-hidden">
           <div className="bg-linear-to-br from-pink-500 to-rose-500 px-5 py-4">
             <h2 className="text-white font-bold">Seu perfil comportamental</h2>
             <p className="text-white/60 text-xs mt-0.5">Score geral: {avgScore}/100</p>
@@ -180,7 +180,7 @@ export default function SoftSkills() {
           {Object.entries(DIMENSIONS).map(([key, config]) => {
             const score = existing.scores[key] || 0
             return (
-              <div key={key} className="bg-card rounded-2xl border border-border/50 p-4">
+              <div key={key} className="bg-card rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-semibold">{config.label}</span>
                   <span className="text-sm font-extrabold text-primary">{score}%</span>
@@ -201,7 +201,7 @@ export default function SoftSkills() {
             setResponses(existing.responses || {})
             setCurrentQ(0)
           }}
-          className="w-full flex items-center justify-center gap-2 mt-4 py-3.5 rounded-2xl text-sm font-semibold text-primary bg-primary/10 active:bg-primary/20 transition-colors"
+          className="w-full flex items-center justify-center gap-2 mt-4 py-3.5 rounded-lg text-sm font-semibold text-primary bg-primary/10 active:bg-primary/20 transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
           Refazer avaliação
@@ -240,7 +240,7 @@ export default function SoftSkills() {
   return (
     <div className="px-4 pt-4 lg:px-0 max-w-lg mx-auto">
       {/* Header */}
-      <div className="bg-linear-to-br from-pink-500 to-rose-500 rounded-3xl p-5 mb-5 shadow-lg shadow-pink-500/20">
+      <div className="bg-linear-to-br from-pink-500 to-rose-500 rounded-xl p-5 mb-5 shadow-lg shadow-pink-500/20">
         <Brain className="w-8 h-8 text-white mb-2" />
         <h2 className="text-white font-bold text-lg">Soft Skills</h2>
         <p className="text-white/70 text-sm mt-1">Preencha todas as afirmações e depois clique em enviar.</p>
@@ -258,7 +258,7 @@ export default function SoftSkills() {
       </div>
 
       {/* Question card */}
-      <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5">
+      <div className="bg-card rounded-xl shadow-ambient-sm p-5">
         <p className="text-xs font-bold text-text-muted mb-3">Afirmação {stmt.id}</p>
         <p className="text-base font-semibold mb-5 leading-relaxed">{stmt.text}</p>
 
@@ -268,7 +268,7 @@ export default function SoftSkills() {
               key={opt.key}
               type="button"
               onClick={() => handleSelect(opt.key)}
-              className={`w-full text-left px-4 py-3.5 rounded-2xl text-sm font-medium transition-all ${
+              className={`w-full text-left px-4 py-3.5 rounded-lg text-sm font-medium transition-all ${
                 currentAnswer === opt.key
                   ? `${opt.color} shadow-sm scale-[1.02]`
                   : 'bg-bg text-text hover:bg-primary/5'
@@ -285,7 +285,7 @@ export default function SoftSkills() {
           {currentQ > 0 && (
             <button
               onClick={goBack}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-bg active:bg-border/50 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-semibold bg-bg active:bg-border/50 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Voltar
@@ -296,7 +296,7 @@ export default function SoftSkills() {
             <button
               onClick={() => mutation.mutate()}
               disabled={!allAnswered || mutation.isPending}
-              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-pink-500 to-rose-500 text-white py-3 rounded-2xl text-sm font-semibold shadow-md shadow-pink-500/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
+              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-pink-500 to-rose-500 text-white py-3 rounded-lg text-sm font-semibold shadow-md shadow-pink-500/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
             >
               {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               Enviar
@@ -305,7 +305,7 @@ export default function SoftSkills() {
             <button
               onClick={goNext}
               disabled={!currentAnswer}
-              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
+              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-40 active:scale-[0.98] transition-transform"
             >
               Avançar
               <ArrowRight className="w-4 h-4" />

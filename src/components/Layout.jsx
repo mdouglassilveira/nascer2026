@@ -41,23 +41,23 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-bg">
-      {/* Top bar - mobile */}
-      <header className="lg:hidden sticky top-0 z-30 bg-card/80 backdrop-blur-lg border-b border-border/50">
-        <div className="flex items-center justify-between px-5 py-3">
+      {/* Top bar - mobile (glassmorphism) */}
+      <header className="lg:hidden sticky top-0 z-30 glass">
+        <div className="flex items-center justify-between px-5 py-3.5">
           <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
           <div className="flex items-center gap-2">
-            <button onClick={toggleDark} className="w-9 h-9 rounded-full bg-bg flex items-center justify-center border border-border/50">
+            <button onClick={toggleDark} className="w-9 h-9 rounded-lg bg-surface flex items-center justify-center">
               {dark ? <Sun className="w-4 h-4 text-accent" /> : <Moon className="w-4 h-4 text-text-muted" />}
             </button>
-            <button onClick={() => setShowMore(true)} className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+            <button onClick={() => setShowMore(true)} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-primary" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Desktop sidebar */}
-      <aside className="hidden lg:flex fixed top-0 left-0 h-full w-72 bg-card border-r border-border flex-col z-40">
+      {/* Desktop sidebar (tonal layering, no border) */}
+      <aside className="hidden lg:flex fixed top-0 left-0 h-full w-72 bg-card flex-col z-40 shadow-ambient">
         <div className="px-6 py-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-gradient-end flex items-center justify-center">
@@ -77,10 +77,10 @@ export default function Layout() {
               to={to}
               end={to === '/'}
               className={({ isActive }) => `
-                flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all
+                flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all
                 ${isActive
-                  ? 'bg-primary text-white shadow-sm'
-                  : 'text-text-muted hover:bg-primary/5 hover:text-text'
+                  ? 'bg-primary/10 text-primary font-semibold'
+                  : 'text-text-muted hover:bg-surface hover:text-text'
                 }
               `}
             >
@@ -90,15 +90,15 @@ export default function Layout() {
           ))}
         </nav>
 
-        <div className="p-4 mx-3 mb-3 rounded-xl bg-bg border border-border/50">
+        <div className="p-4 mx-3 mb-3 rounded-lg bg-surface">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 <User className="w-4 h-4 text-primary" />
               </div>
               <p className="text-xs font-medium truncate">{user?.email}</p>
             </div>
-            <button onClick={toggleDark} className="w-7 h-7 rounded-lg bg-card border border-border/50 flex items-center justify-center shrink-0">
+            <button onClick={toggleDark} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center shrink-0">
               {dark ? <Sun className="w-3.5 h-3.5 text-accent" /> : <Moon className="w-3.5 h-3.5 text-text-muted" />}
             </button>
           </div>
@@ -130,7 +130,7 @@ export default function Layout() {
                   to={to}
                   onClick={() => setShowMore(false)}
                   className={({ isActive }) => `
-                    flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all
+                    flex items-center gap-4 px-4 py-3.5 rounded-lg transition-all
                     ${isActive ? 'bg-primary/10' : 'hover:bg-gray-50 active:bg-gray-100'}
                   `}
                 >
@@ -148,7 +148,7 @@ export default function Layout() {
               <div className="border-t border-border mt-3 pt-3">
                 <button
                   onClick={handleSignOut}
-                  className="flex items-center gap-4 px-4 py-3.5 rounded-2xl w-full hover:bg-red-50 active:bg-red-100"
+                  className="flex items-center gap-4 px-4 py-3.5 rounded-lg w-full hover:bg-red-50 active:bg-red-100"
                 >
                   <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-danger/10">
                     <LogOut className="w-5 h-5 text-danger" />
@@ -170,7 +170,7 @@ export default function Layout() {
       </main>
 
       {/* Bottom navigation - mobile */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-card/90 backdrop-blur-lg border-t border-border/50">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 glass">
         <div className="flex justify-around items-center px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {bottomNavItems.map(({ to, icon: Icon, label }) => (
             <NavLink

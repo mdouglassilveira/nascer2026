@@ -49,7 +49,7 @@ export default function AdminLayout() {
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-text-muted hidden sm:block">{user?.email}</span>
-            <button onClick={toggleDark} className="w-8 h-8 rounded-lg bg-bg border border-border/50 flex items-center justify-center">
+            <button onClick={toggleDark} className="w-8 h-8 rounded-lg bg-bg flex items-center justify-center">
               {dark ? <Sun className="w-4 h-4 text-accent" /> : <Moon className="w-4 h-4 text-text-muted" />}
             </button>
             <button onClick={handleSignOut} className="text-text-muted hover:text-danger">

@@ -98,7 +98,7 @@ export default function Step1Personal({ form, update, onNext, saving }) {
       <button
         onClick={onNext}
         disabled={!canProceed || saving}
-        className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-40 active:scale-[0.98] transition-transform mt-4"
+        className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-40 active:scale-[0.98] transition-transform mt-4"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
         Próximo

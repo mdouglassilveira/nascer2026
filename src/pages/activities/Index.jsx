@@ -35,7 +35,7 @@ export default function Activities() {
   return (
     <div className="px-4 pt-4 lg:px-0">
       {/* Progress header */}
-      <div className="bg-linear-to-br from-emerald-500 to-teal-600 rounded-3xl p-5 mb-5 shadow-lg shadow-emerald-500/20">
+      <div className="bg-linear-to-br from-emerald-500 to-teal-600 rounded-xl p-5 mb-5 shadow-lg shadow-emerald-500/20">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <Zap className="w-5 h-5 text-yellow-300" />
@@ -60,7 +60,7 @@ export default function Activities() {
             <Link
               key={activity.id}
               to={`/atividades/${activity.id}`}
-              className={`flex items-center gap-3.5 bg-card rounded-2xl p-4 shadow-sm shadow-black/5 border active:scale-[0.98] transition-transform ${
+              className={`flex items-center gap-3.5 bg-card rounded-lg p-4 shadow-ambient-sm border active:scale-[0.98] transition-transform ${
                 isDone ? 'border-secondary/30' : 'border-border/50'
               }`}
             >
@@ -88,7 +88,7 @@ export default function Activities() {
 
         {total === 0 && (
           <div className="text-center py-12">
-            <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-3">
+            <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
               <ClipboardList className="w-8 h-8 text-text-muted" />
             </div>
             <p className="text-text-muted font-medium">Nenhuma atividade disponível</p>

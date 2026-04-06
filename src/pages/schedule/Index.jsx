@@ -27,7 +27,7 @@ export default function Schedule() {
           to={`/cronograma/${upcoming[0].id}`}
           className="block mb-5"
         >
-          <div className={`rounded-3xl p-5 shadow-lg ${
+          <div className={`rounded-xl p-5 shadow-lg ${
             upcoming[0].type === 'workshop'
               ? 'bg-linear-to-br from-blue-500 to-cyan-500 shadow-blue-500/20'
               : 'bg-linear-to-br from-orange-500 to-amber-500 shadow-orange-500/20'
@@ -77,7 +77,7 @@ export default function Schedule() {
 
       {events?.length === 0 && (
         <div className="text-center py-12">
-          <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-3">
+          <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
             <Calendar className="w-8 h-8 text-text-muted" />
           </div>
           <p className="text-text-muted font-medium">Nenhum encontro agendado</p>
@@ -92,7 +92,7 @@ function EventCard({ event, faded }) {
   return (
     <Link
       to={`/cronograma/${event.id}`}
-      className={`bg-card rounded-2xl border border-border/50 p-4 flex items-center gap-3.5 shadow-sm shadow-black/5 active:scale-[0.98] transition-transform ${faded ? 'opacity-60' : ''}`}
+      className={`bg-card rounded-lg p-4 flex items-center gap-3.5 shadow-ambient-sm active:scale-[0.98] transition-transform ${faded ? 'opacity-60' : ''}`}
     >
       <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
         isWorkshop ? 'bg-blue-50 text-blue-500' : 'bg-orange-50 text-orange-500'

@@ -69,7 +69,7 @@ export default function ActivityDetail() {
       )}
 
       {isAnswered && !Object.keys(answers).length ? (
-        <div className="bg-card rounded-3xl border border-secondary/20 shadow-sm shadow-black/5 overflow-hidden">
+        <div className="bg-card rounded-xl border border-secondary/20 shadow-ambient-sm overflow-hidden">
           <div className="bg-secondary/10 px-5 py-3 flex items-center gap-2">
             <CheckCircle2 className="w-5 h-5 text-secondary" />
             <span className="text-sm font-bold text-secondary">Atividade respondida</span>
@@ -101,7 +101,7 @@ export default function ActivityDetail() {
       ) : (
         <form
           onSubmit={(e) => { e.preventDefault(); mutation.mutate() }}
-          className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5 space-y-4"
+          className="bg-card rounded-xl shadow-ambient-sm p-5 space-y-4"
         >
           {fields.map((field, i) => (
             <div key={i}>
@@ -112,14 +112,14 @@ export default function ActivityDetail() {
                   onChange={e => setAnswers(a => ({ ...a, [field.name]: e.target.value }))}
                   rows={3}
                   placeholder="Descreva aqui..."
-                  className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
+                  className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
                   required={field.required}
                 />
               ) : field.type === 'select' ? (
                 <select
                   value={answers[field.name] || ''}
                   onChange={e => setAnswers(a => ({ ...a, [field.name]: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                   required={field.required}
                 >
                   <option value="">Selecione uma opção...</option>
@@ -131,7 +131,7 @@ export default function ActivityDetail() {
                   value={answers[field.name] || ''}
                   onChange={e => setAnswers(a => ({ ...a, [field.name]: e.target.value }))}
                   placeholder="Informe aqui..."
-                  className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50"
+                  className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50"
                   required={field.required}
                 />
               )}
@@ -146,7 +146,7 @@ export default function ActivityDetail() {
                 onChange={e => setAnswers(a => ({ ...a, response: e.target.value }))}
                 rows={4}
                 placeholder="Escreva sua resposta aqui..."
-                className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
+                className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
                 required
               />
             </div>
@@ -155,7 +155,7 @@ export default function ActivityDetail() {
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-50 active:scale-[0.98] transition-transform"
+            className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-50 active:scale-[0.98] transition-transform"
           >
             {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             Enviar resposta

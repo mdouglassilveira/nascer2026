@@ -81,7 +81,7 @@ export default function Team() {
     <div className="px-4 pt-4 lg:px-0">
       {/* Invite success message */}
       {inviteMsg && (
-        <div className="bg-secondary/10 border border-secondary/20 rounded-2xl p-4 mb-4 flex items-start gap-3">
+        <div className="bg-secondary/10 border border-secondary/20 rounded-lg p-4 mb-4 flex items-start gap-3">
           <CheckCircle2 className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-semibold text-secondary">Convite enviado!</p>
@@ -92,13 +92,13 @@ export default function Team() {
 
       {/* Error message */}
       {addMutation.isError && (
-        <div className="bg-danger/10 border border-danger/20 rounded-2xl p-4 mb-4">
+        <div className="bg-danger/10 border border-danger/20 rounded-lg p-4 mb-4">
           <p className="text-sm font-semibold text-danger">{addMutation.error?.message}</p>
         </div>
       )}
 
       {/* Header */}
-      <div className="bg-linear-to-br from-teal-500 to-emerald-600 rounded-3xl p-5 mb-5 shadow-lg shadow-teal-500/20">
+      <div className="bg-linear-to-br from-teal-500 to-emerald-600 rounded-xl p-5 mb-5 shadow-lg shadow-teal-500/20">
         <div className="flex items-center justify-between">
           <div>
             <Users className="w-8 h-8 text-white mb-2" />
@@ -120,7 +120,7 @@ export default function Team() {
           const isFounder = member.role === 'founder'
 
           return (
-            <div key={member.id} className={`bg-card rounded-2xl border border-border/50 shadow-sm shadow-black/5 p-4 flex items-center gap-3 ${!isActive ? 'opacity-70' : ''}`}>
+            <div key={member.id} className={`bg-card rounded-lg shadow-ambient-sm p-4 flex items-center gap-3 ${!isActive ? 'opacity-70' : ''}`}>
               {member.avatar_url ? (
                 <img src={member.avatar_url} alt="" className="w-11 h-11 rounded-xl object-cover shrink-0" />
               ) : (
@@ -150,7 +150,7 @@ export default function Team() {
       {/* Empty state */}
       {totalCount <= 1 && !showForm && (
         <div className="text-center py-8">
-          <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-3">
+          <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
             <Users className="w-8 h-8 text-text-muted" />
           </div>
           <p className="text-text-muted font-medium">Adicione membros à sua equipe</p>
@@ -162,7 +162,7 @@ export default function Team() {
       {canAdd && !showForm && (
         <button
           onClick={() => setShowForm(true)}
-          className="w-full flex items-center justify-center gap-2 py-3.5 mt-3 rounded-2xl text-sm font-semibold border-2 border-dashed border-primary/30 text-primary bg-primary/5 active:bg-primary/10 transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-3.5 mt-3 rounded-lg text-sm font-semibold border-2 border-dashed border-primary/30 text-primary bg-primary/5 active:bg-primary/10 transition-colors"
         >
           <UserPlus className="w-4 h-4" />
           Adicionar membro
@@ -171,7 +171,7 @@ export default function Team() {
 
       {/* Add form */}
       {showForm && (
-        <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5 mt-3">
+        <div className="bg-card rounded-xl shadow-ambient-sm p-5 mt-3">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-sm">Convidar membro</h3>
             <button onClick={() => setShowForm(false)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
@@ -183,15 +183,15 @@ export default function Team() {
             className="space-y-3"
           >
             <input type="text" placeholder="Nome do membro" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required
-              className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50" />
+              className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50" />
             <input type="email" placeholder="Email do membro" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required
-              className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50" />
+              className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50" />
             <input type="text" placeholder="Papel na equipe (ex: Desenvolvedor)" value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
-              className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50" />
+              className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50" />
             <button
               type="submit"
               disabled={addMutation.isPending}
-              className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-50 active:scale-[0.98] transition-transform"
+              className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-50 active:scale-[0.98] transition-transform"
             >
               {addMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
               Enviar convite

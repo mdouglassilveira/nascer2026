@@ -85,7 +85,7 @@ export default function Evaluate() {
           ← Voltar à lista
         </button>
 
-        <div className="bg-card rounded-2xl border border-border/50 shadow-sm p-5 mb-4">
+        <div className="bg-card rounded-lg shadow-sm p-5 mb-4">
           <h2 className="font-bold text-lg">{enrollment?.full_name}</h2>
           <p className="text-sm text-text-muted">{enrollment?.project_title}</p>
           <Link to={`/admin/inscricoes/${selected}`} className="text-xs text-primary font-medium mt-2 inline-block hover:underline">
@@ -93,7 +93,7 @@ export default function Evaluate() {
           </Link>
         </div>
 
-        <div className="bg-card rounded-2xl border border-border/50 shadow-sm p-5">
+        <div className="bg-card rounded-lg shadow-sm p-5">
           <h3 className="font-bold text-sm mb-4">Sua avaliação</h3>
 
           <div className="space-y-5">
@@ -123,7 +123,7 @@ export default function Evaluate() {
             <button
               onClick={() => submitMutation.mutate()}
               disabled={submitMutation.isPending}
-              className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-50 active:scale-[0.98] transition-transform"
+              className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-50 active:scale-[0.98] transition-transform"
             >
               {submitMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Award className="w-4 h-4" />}
               Enviar avaliação
@@ -152,7 +152,7 @@ export default function Evaluate() {
               <button
                 key={e.id}
                 onClick={() => setSelected(e.id)}
-                className="w-full flex items-center gap-3 bg-card rounded-2xl border border-border/50 shadow-sm p-4 hover:shadow-md transition-shadow text-left"
+                className="w-full flex items-center gap-3 bg-card rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow text-left"
               >
                 <div className="w-10 h-10 rounded-xl bg-warning/10 flex items-center justify-center shrink-0">
                   <Star className="w-5 h-5 text-warning" />
@@ -174,7 +174,7 @@ export default function Evaluate() {
           <h2 className="text-sm font-bold text-text-muted uppercase tracking-wider mb-3">Avaliadas</h2>
           <div className="space-y-2">
             {evaluated.map(e => (
-              <div key={e.id} className="flex items-center gap-3 bg-card rounded-2xl border border-secondary/20 p-4 opacity-70">
+              <div key={e.id} className="flex items-center gap-3 bg-card rounded-lg border border-secondary/20 p-4 opacity-70">
                 <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-5 h-5 text-secondary" />
                 </div>

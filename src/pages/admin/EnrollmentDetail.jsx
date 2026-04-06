@@ -137,7 +137,7 @@ export default function EnrollmentDetail() {
 
 function Section({ icon: Icon, title, children, className = '' }) {
   return (
-    <div className={`bg-card rounded-2xl border border-border/50 shadow-sm p-4 ${className}`}>
+    <div className={`bg-card rounded-lg shadow-sm p-4 ${className}`}>
       <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/30">
         <Icon className="w-4 h-4 text-primary" />
         <h3 className="text-sm font-bold">{title}</h3>

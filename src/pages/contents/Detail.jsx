@@ -38,7 +38,7 @@ export default function ContentDetail() {
           <ArrowLeft className="w-4 h-4" /> Voltar
         </button>
 
-        <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5">
+        <div className="bg-card rounded-xl shadow-ambient-sm p-5">
           {content.module && (
             <span className="text-[10px] font-bold text-primary uppercase tracking-wider">{content.module}</span>
           )}

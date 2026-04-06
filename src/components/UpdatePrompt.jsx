@@ -18,7 +18,7 @@ export default function UpdatePrompt() {
 
   return (
     <div className="fixed bottom-20 left-4 right-4 lg:bottom-6 lg:left-auto lg:right-6 lg:w-80 z-50 animate-slide-up">
-      <div className="bg-card rounded-2xl shadow-xl shadow-black/15 border border-border/50 p-4 flex items-center gap-3">
+      <div className="bg-card rounded-lg shadow-xl shadow-black/15 p-4 flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
           <RefreshCw className="w-5 h-5 text-primary" />
         </div>

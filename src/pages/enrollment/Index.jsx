@@ -40,7 +40,7 @@ export default function Enrollment() {
   if (!edition?.enrollment_open) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-bg px-6">
-        <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+        <div className="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
           <Sparkles className="w-8 h-8 text-primary" />
         </div>
         <h1 className="text-xl font-bold text-center">Inscrições encerradas</h1>
@@ -118,7 +118,7 @@ export default function Enrollment() {
 
       {/* Form */}
       <div className="px-4 py-5 -mt-3 max-w-lg mx-auto">
-        <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5">
+        <div className="bg-card rounded-xl shadow-ambient-sm p-5">
           <StepComponent
             form={form}
             update={update}

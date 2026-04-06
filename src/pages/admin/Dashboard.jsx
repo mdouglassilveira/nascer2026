@@ -55,7 +55,7 @@ export default function AdminDashboard() {
       {ctx?.isAdmin && (
         <>
           <h2 className="text-lg font-bold mb-3">Por Centro de Inovação</h2>
-          <div className="bg-card rounded-2xl border border-border/50 shadow-sm overflow-hidden">
+          <div className="bg-card rounded-lg shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -105,7 +105,7 @@ export default function AdminDashboard() {
 
 function StatCard({ icon: Icon, label, value, color }) {
   return (
-    <div className="bg-card rounded-2xl border border-border/50 shadow-sm p-4">
+    <div className="bg-card rounded-lg shadow-sm p-4">
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-2 ${color}`}>
         <Icon className="w-5 h-5" />
       </div>

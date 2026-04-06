@@ -147,7 +147,7 @@ export default function Step4Eligibility({ form, update, onBack, onSubmit, savin
           <Field label="CEP">
             <div className="flex gap-2">
               <input type="text" value={form.cep || ''} onChange={e => update({ cep: maskCEP(e.target.value) })} placeholder="00000-000" className="input-field flex-1" />
-              <button type="button" onClick={handleCep} className="px-4 py-3 rounded-2xl bg-primary/10 text-primary text-xs font-bold active:bg-primary/20">
+              <button type="button" onClick={handleCep} className="px-4 py-3 rounded-lg bg-primary/10 text-primary text-xs font-bold active:bg-primary/20">
                 Buscar
               </button>
             </div>
@@ -194,7 +194,7 @@ export default function Step4Eligibility({ form, update, onBack, onSubmit, savin
       <div className="flex gap-3 pt-2">
         <button
           onClick={onBack}
-          className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-semibold bg-bg active:bg-border/50 transition-colors"
+          className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-lg text-sm font-semibold bg-bg active:bg-border/50 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar
@@ -202,7 +202,7 @@ export default function Step4Eligibility({ form, update, onBack, onSubmit, savin
         <button
           onClick={onSubmit}
           disabled={!canSubmit || submitting || saving}
-          className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-secondary to-secondary-dark text-white py-3.5 rounded-2xl text-sm font-semibold shadow-md shadow-secondary/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
+          className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-secondary to-secondary-dark text-white py-3.5 rounded-lg text-sm font-semibold shadow-md shadow-secondary/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
         >
           {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
           Finalizar inscrição
@@ -241,7 +241,7 @@ function FileUpload({ label, field, form, uploading, onUpload }) {
     <div>
       <label className="block text-xs font-bold text-text-muted mb-1.5 uppercase tracking-wider">{label}</label>
       {hasFile ? (
-        <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-secondary/10 text-secondary text-sm font-medium">
+        <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-secondary/10 text-secondary text-sm font-medium">
           <FileCheck className="w-4 h-4" />
           Documento enviado
           <button
@@ -257,7 +257,7 @@ function FileUpload({ label, field, form, uploading, onUpload }) {
           type="button"
           onClick={() => document.getElementById(`file-${field}`).click()}
           disabled={uploading[field]}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border-2 border-dashed border-border text-text-muted text-sm font-medium hover:border-primary/30 hover:text-primary transition-colors disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 border-dashed border-border text-text-muted text-sm font-medium hover:border-primary/30 hover:text-primary transition-colors disabled:opacity-50"
         >
           {uploading[field] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
           {uploading[field] ? 'Enviando...' : 'Selecionar arquivo'}

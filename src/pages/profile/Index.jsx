@@ -97,7 +97,7 @@ export default function Profile() {
               className="w-24 h-24 rounded-full object-cover shadow-lg shadow-primary/20 border-3 border-white"
             />
           ) : (
-            <div className="w-24 h-24 rounded-full bg-linear-to-br from-primary to-primary-light flex items-center justify-center shadow-lg shadow-primary/25">
+            <div className="w-24 h-24 rounded-full bg-linear-to-br from-primary to-primary-light flex items-center justify-center shadow-ambient">
               <User className="w-12 h-12 text-white" />
             </div>
           )}
@@ -127,7 +127,7 @@ export default function Profile() {
       {editing ? (
         <form
           onSubmit={(e) => { e.preventDefault(); mutation.mutate(form) }}
-          className="bg-card rounded-3xl shadow-sm shadow-black/5 border border-border/50 p-5 space-y-4"
+          className="bg-card rounded-xl shadow-ambient-sm p-5 space-y-4"
         >
           <h3 className="font-bold text-sm mb-1">Editar perfil</h3>
           <InputField label="Nome completo" value={form.full_name} onChange={v => setForm(f => ({ ...f, full_name: v }))} placeholder="Seu nome completo" />
@@ -139,14 +139,14 @@ export default function Profile() {
               onChange={e => setForm(f => ({ ...f, bio: e.target.value }))}
               rows={3}
               placeholder="Conte um pouco sobre você e seu projeto..."
-              className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
+              className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-text-muted/50"
             />
           </div>
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-50 active:scale-[0.98] transition-transform"
+              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-50 active:scale-[0.98] transition-transform"
             >
               {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Salvar
@@ -154,7 +154,7 @@ export default function Profile() {
             <button
               type="button"
               onClick={() => setEditing(false)}
-              className="px-5 py-3 rounded-2xl text-sm font-medium bg-bg active:bg-border/50 transition-colors"
+              className="px-5 py-3 rounded-lg text-sm font-medium bg-bg active:bg-border/50 transition-colors"
             >
               Cancelar
             </button>
@@ -167,7 +167,7 @@ export default function Profile() {
           <InfoCard icon={Phone} label="Telefone" value={profile?.phone} />
 
           {profile?.bio && (
-            <div className="bg-card rounded-3xl shadow-sm shadow-black/5 border border-border/50 p-4">
+            <div className="bg-card rounded-xl shadow-ambient-sm p-4">
               <p className="text-xs font-semibold text-text-muted mb-1">Bio</p>
               <p className="text-sm">{profile.bio}</p>
             </div>
@@ -175,7 +175,7 @@ export default function Profile() {
 
           <button
             onClick={startEditing}
-            className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 mt-4 active:scale-[0.98] transition-transform"
+            className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-lg text-sm font-semibold shadow-ambient-sm mt-4 active:scale-[0.98] transition-transform"
           >
             <Pencil className="w-4 h-4" />
             Editar perfil
@@ -188,7 +188,7 @@ export default function Profile() {
 
 function InfoCard({ icon: Icon, label, value }) {
   return (
-    <div className="bg-card rounded-2xl shadow-sm shadow-black/5 border border-border/50 p-4 flex items-center gap-3">
+    <div className="bg-card rounded-lg shadow-ambient-sm p-4 flex items-center gap-3">
       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
         <Icon className="w-4 h-4 text-primary" />
       </div>
@@ -209,7 +209,7 @@ function InputField({ label, value, onChange, type = 'text', placeholder }) {
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder || `Informe ${label.toLowerCase()}`}
-        className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50"
+        className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/50"
       />
     </div>
   )

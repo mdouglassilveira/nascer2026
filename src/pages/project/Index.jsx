@@ -10,8 +10,8 @@ export default function Project() {
   if (!project) {
     return (
       <div className="px-4 pt-4 lg:px-0">
-        <div className="bg-card rounded-3xl border border-border/50 p-8 text-center shadow-sm">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+        <div className="bg-card rounded-xl p-8 text-center shadow-sm">
+          <div className="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <FolderKanban className="w-8 h-8 text-primary" />
           </div>
           <h2 className="font-bold text-lg">Nenhum projeto</h2>
@@ -24,9 +24,9 @@ export default function Project() {
   return (
     <div className="px-4 pt-4 lg:px-0">
       {/* Project header */}
-      <div className="bg-linear-to-br from-purple-500 to-violet-600 rounded-3xl p-5 mb-4 shadow-lg shadow-purple-500/20">
+      <div className="bg-linear-to-br from-purple-500 to-violet-600 rounded-xl p-5 mb-4 shadow-lg shadow-purple-500/20">
         <div className="flex items-start gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 rounded-lg bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
             <FolderKanban className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -53,7 +53,7 @@ export default function Project() {
 
 function DetailCard({ icon: Icon, label, value, color }) {
   return (
-    <div className="bg-card rounded-2xl shadow-sm shadow-black/5 border border-border/50 p-4">
+    <div className="bg-card rounded-lg shadow-ambient-sm p-4">
       <div className="flex items-center gap-2 mb-2">
         <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${color}`}>
           <Icon className="w-4 h-4" />

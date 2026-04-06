@@ -110,7 +110,7 @@ export default function Enrollments() {
             <Link
               key={e.id}
               to={`/admin/inscricoes/${e.id}`}
-              className="flex items-center gap-3 bg-card rounded-2xl border border-border/50 shadow-sm p-4 hover:shadow-md transition-shadow"
+              className="flex items-center gap-3 bg-card rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">

@@ -34,7 +34,7 @@ export default function Contents() {
     <div className="px-4 pt-4 lg:px-0">
       {Object.entries(grouped || {}).map(([module, items], mi) => (
         <div key={module} className="mb-6">
-          <div className={`bg-linear-to-r ${moduleColors[mi % moduleColors.length]} rounded-2xl px-4 py-3 mb-3 shadow-sm`}>
+          <div className={`bg-linear-to-r ${moduleColors[mi % moduleColors.length]} rounded-lg px-4 py-3 mb-3 shadow-sm`}>
             <h2 className="text-white font-bold text-sm">{module}</h2>
             <p className="text-white/60 text-xs">{items.length} {items.length === 1 ? 'conteúdo' : 'conteúdos'}</p>
           </div>
@@ -43,7 +43,7 @@ export default function Contents() {
               <Link
                 key={item.id}
                 to={`/conteudos/${item.id}`}
-                className="bg-card rounded-2xl border border-border/50 p-4 flex items-center gap-3.5 shadow-sm shadow-black/5 active:scale-[0.98] transition-transform"
+                className="bg-card rounded-lg p-4 flex items-center gap-3.5 shadow-ambient-sm active:scale-[0.98] transition-transform"
               >
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
                   item.type === 'video' ? 'bg-purple-50 text-purple-500' : 'bg-cyan-50 text-cyan-500'
@@ -65,7 +65,7 @@ export default function Contents() {
 
       {(!contents || contents.length === 0) && (
         <div className="text-center py-12">
-          <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-3">
+          <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
             <BookOpen className="w-8 h-8 text-text-muted" />
           </div>
           <p className="text-text-muted font-medium">Nenhum conteúdo disponível</p>

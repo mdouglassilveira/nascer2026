@@ -47,7 +47,7 @@ export default function Login() {
 
       {/* Header area */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16 pb-8 relative z-10">
-        <div className="w-20 h-20 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
+        <div className="w-20 h-20 rounded-lg bg-white/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
           <Sparkles className="w-10 h-10 text-white" />
         </div>
         <h1 className="text-3xl font-extrabold text-white tracking-tight">Nascer 2026</h1>
@@ -55,7 +55,7 @@ export default function Login() {
       </div>
 
       {/* Form card */}
-      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 min-h-[45vh] lg:rounded-2xl lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
+      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 min-h-[45vh] lg:rounded-lg lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
         {resetMode ? (
           resetSent ? (
             <div className="text-center py-8">
@@ -83,7 +83,7 @@ export default function Login() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     required
-                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
                     placeholder="Seu email"
                   />
                 </div>
@@ -91,7 +91,7 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl font-semibold text-sm shadow-lg shadow-primary/30 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                  className="w-full bg-gradient-to-r from-primary to-primary-light text-white py-3.5 rounded-lg font-semibold text-sm shadow-lg shadow-primary/30 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
                   Enviar link
@@ -118,7 +118,7 @@ export default function Login() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
-                  className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
+                  className="w-full pl-11 pr-4 py-3.5 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
                   placeholder="Seu email"
                 />
               </div>
@@ -129,7 +129,7 @@ export default function Login() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
-                  className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
+                  className="w-full pl-11 pr-4 py-3.5 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
                   placeholder="Sua senha"
                 />
               </div>
@@ -137,7 +137,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl font-semibold text-sm shadow-lg shadow-primary/30 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                className="w-full bg-gradient-to-r from-primary to-primary-light text-white py-3.5 rounded-lg font-semibold text-sm shadow-lg shadow-primary/30 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                   <>

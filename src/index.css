@@ -1,51 +1,57 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Primary - Royal Blue */
-  --color-primary: #1E3A8A;
-  --color-primary-dark: #172E6E;
-  --color-primary-light: #2563EB;
+  /* Primary - Royal Blue (Stitch tokens) */
+  --color-primary: #00236f;
+  --color-primary-dark: #001a52;
+  --color-primary-light: #4059aa;
+  --color-primary-container: #1e3a8a;
   /* Secondary - Teal */
-  --color-secondary: #0D9488;
-  --color-secondary-dark: #0A7A70;
-  /* Accent */
-  --color-accent: #F59E0B;
-  --color-accent-light: #FBBF24;
+  --color-secondary: #006a6a;
+  --color-secondary-dark: #004f4f;
+  --color-secondary-container: #90efef;
+  /* Tertiary - Amber */
+  --color-accent: #fbbc00;
+  --color-accent-light: #ffd866;
+  --color-accent-dark: #533c00;
   /* Status */
-  --color-danger: #EF4444;
-  --color-warning: #F59E0B;
-  --color-info: #3B82F6;
-  /* Gradient endpoints */
-  --color-gradient-start: #1E3A8A;
-  --color-gradient-mid: #2563EB;
-  --color-gradient-end: #3B82F6;
+  --color-danger: #ba1a1a;
+  --color-warning: #fbbc00;
+  --color-info: #4059aa;
+  /* Gradient */
+  --color-gradient-start: #00236f;
+  --color-gradient-mid: #1e3a8a;
+  --color-gradient-end: #4059aa;
 
-  /* Light mode defaults */
-  --color-bg: #F8FAFC;
-  --color-card: #FFFFFF;
-  --color-text: #0F172A;
-  --color-text-muted: #64748B;
-  --color-border: #E2E8F0;
-
-  /* Dark mode overrides */
-  --color-bg--dark: #0F172A;
-  --color-card--dark: #1E293B;
-  --color-text--dark: #F1F5F9;
-  --color-text-muted--dark: #94A3B8;
-  --color-border--dark: #334155;
+  /* Surfaces - Light (Stitch) */
+  --color-bg: #faf8ff;
+  --color-card: #ffffff;
+  --color-surface: #f4f3fa;
+  --color-surface-high: #e9e7ef;
+  --color-text: #1a1b21;
+  --color-text-muted: #444651;
+  --color-border: #c5c5d3;
+  --color-outline: #757682;
 }
 
-/* Dark mode via class - override CSS variables */
+/* Dark mode overrides */
 .dark {
-  --color-bg: #0F172A;
-  --color-card: #1E293B;
-  --color-text: #F1F5F9;
-  --color-text-muted: #94A3B8;
-  --color-border: #334155;
+  --color-bg: #0f1118;
+  --color-card: #1a1b26;
+  --color-surface: #22243a;
+  --color-surface-high: #2e3050;
+  --color-text: #e3e1e9;
+  --color-text-muted: #9496a8;
+  --color-border: #3a3c52;
+  --color-outline: #5a5c72;
 }
 
+/* =====================================================
+   BASE STYLES
+   ===================================================== */
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -57,64 +63,99 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-* {
-  box-sizing: border-box;
+* { box-sizing: border-box; }
+input, textarea, select { font-family: inherit; }
+html { scroll-behavior: smooth; }
+
+/* Headlines use Manrope */
+h1, h2, h3 {
+  font-family: 'Manrope', system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
-input, textarea, select {
-  font-family: inherit;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
 
-html {
-  scroll-behavior: smooth;
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
-}
-
-/* Reusable input field */
+/* =====================================================
+   INPUT FIELD (Stitch-inspired)
+   ===================================================== */
 .input-field {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 1rem;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--color-surface);
+  border: none;
   font-size: 0.875rem;
   color: var(--color-text);
   outline: none;
   -webkit-appearance: none;
   appearance: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: background 0.2s, box-shadow 0.2s;
 }
 .input-field:focus {
-  border-color: var(--color-primary-light);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-light) 15%, transparent);
+  background: var(--color-card);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 20%, transparent);
 }
 .input-field::placeholder {
   color: var(--color-text-muted);
   opacity: 0.6;
 }
 
-/* Select styling */
+/* Select */
 select.input-field {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23757682' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 2.5rem;
   cursor: pointer;
 }
 select.input-field option {
-  padding: 0.75rem;
   background: var(--color-card);
   color: var(--color-text);
 }
 
-/* Safe area for PWA on notched devices */
+/* =====================================================
+   DESIGN SYSTEM UTILITIES
+   ===================================================== */
+
+/* Ambient shadow (tinted with primary, never black) */
+.shadow-ambient {
+  box-shadow: 0 12px 32px rgba(0, 35, 111, 0.08);
+}
+.shadow-ambient-sm {
+  box-shadow: 0 4px 16px rgba(0, 35, 111, 0.06);
+}
+
+/* Glassmorphism */
+.glass {
+  background: color-mix(in srgb, var(--color-card) 80%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Ghost border (15% opacity outline_variant) */
+.ghost-border {
+  border: 1.5px solid color-mix(in srgb, var(--color-border) 15%, transparent);
+}
+
+/* Gradient CTA button */
+.btn-gradient {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+/* Surface tonal cards (no borders, bg shift) */
+.card-tonal {
+  background: var(--color-card);
+  border: none;
+}
+
+/* =====================================================
+   SAFE AREA
+   ===================================================== */
 @supports (padding-top: env(safe-area-inset-top)) {
   body {
     padding-top: env(safe-area-inset-top);

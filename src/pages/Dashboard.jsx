@@ -93,17 +93,17 @@ export default function Dashboard() {
 
   return (
     <div className="pb-4">
-      {/* Hero gradient header */}
-      <div className="bg-linear-to-br from-primary via-primary-dark to-gradient-end px-5 pt-12 pb-20 lg:pt-8 lg:rounded-b-[2rem] relative overflow-hidden">
+      {/* Hero gradient header (Stitch 135° gradient) */}
+      <div className="px-5 pt-12 pb-20 lg:pt-8 lg:rounded-b-[2rem] relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #00236f 0%, #1e3a8a 60%, #4059aa 100%)' }}>
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-secondary/10 translate-y-1/2 -translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-white/3 translate-y-1/2 -translate-x-1/4" />
 
         <div className="relative z-10">
           <p className="text-white/70 text-sm">Olá, {firstName} 👋</p>
           <h1 className="text-2xl font-extrabold text-white mt-1">Sua Jornada</h1>
 
           {/* Progress card */}
-          <div className="mt-5 bg-white/15 backdrop-blur-md rounded-2xl p-4">
+          <div className="mt-5 bg-white/12 backdrop-blur-md rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <Rocket className="w-4 h-4 text-warning" />
@@ -133,7 +133,7 @@ export default function Dashboard() {
               to={to}
               className="flex flex-col items-center"
             >
-              <div className={`w-14 h-14 rounded-2xl bg-linear-to-br ${gradient} flex items-center justify-center shadow-lg shadow-black/10 active:scale-95 transition-transform`}>
+              <div className={`w-14 h-14 rounded-lg bg-linear-to-br ${gradient} flex items-center justify-center shadow-ambient-sm active:scale-95 transition-transform`}>
                 <Icon className="w-6 h-6 text-white" />
               </div>
               <span className="text-[11px] font-semibold text-text mt-2 text-center">{label}</span>
@@ -163,7 +163,7 @@ export default function Dashboard() {
             <Link
               key={to}
               to={to}
-              className="flex items-center gap-3.5 bg-card rounded-2xl p-4 shadow-sm shadow-black/5 active:scale-[0.98] transition-transform border border-border/50"
+              className="flex items-center gap-3.5 bg-card rounded-lg p-4 shadow-ambient-sm active:scale-[0.98] transition-transform"
             >
               <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${color}`}>
                 <Icon className="w-5 h-5" />
@@ -179,10 +179,10 @@ export default function Dashboard() {
       <div className="px-4 mt-6">
         <Link
           to="/ferramentas"
-          className="block bg-linear-to-r from-primary/10 via-primary/5 to-secondary/10 rounded-2xl p-5 border border-primary/10 active:scale-[0.98] transition-transform"
+          className="block bg-surface rounded-lg p-5 shadow-ambient-sm active:scale-[0.98] transition-transform"
         >
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-linear-to-br from-primary to-primary-light flex items-center justify-center shadow-md shadow-primary/25">
+            <div className="w-11 h-11 rounded-xl bg-linear-to-br from-primary to-primary-light flex items-center justify-center shadow-ambient-sm">
               <Zap className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -198,8 +198,8 @@ export default function Dashboard() {
 
 function StatCard({ icon: Icon, label, value, color }) {
   return (
-    <div className="bg-card rounded-2xl p-3.5 shadow-sm shadow-black/5 border border-border/50 text-center">
-      <div className={`w-9 h-9 rounded-xl flex items-center justify-center mx-auto ${color}`}>
+    <div className="bg-card rounded-lg p-3.5 shadow-ambient-sm text-center">
+      <div className={`w-9 h-9 rounded-lg flex items-center justify-center mx-auto ${color}`}>
         <Icon className="w-4 h-4" />
       </div>
       <p className="text-lg font-extrabold mt-2">{value}</p>

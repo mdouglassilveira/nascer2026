@@ -41,10 +41,10 @@ export default function Tools() {
   return (
     <div className="px-4 pt-4 lg:px-0">
       {/* AI Header */}
-      <div className="bg-linear-to-br from-primary to-primary-light rounded-3xl p-5 mb-5 shadow-lg shadow-primary/20 relative overflow-hidden">
+      <div className="bg-linear-to-br from-primary to-primary-light rounded-xl p-5 mb-5 shadow-lg shadow-primary/20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/3" />
         <div className="relative z-10">
-          <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
+          <div className="w-12 h-12 rounded-lg bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
             <Sparkles className="w-6 h-6 text-white" />
           </div>
           <h2 className="text-white font-bold text-lg">Assistente IA</h2>
@@ -53,19 +53,19 @@ export default function Tools() {
       </div>
 
       {/* Chat area */}
-      <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5 mb-4">
+      <div className="bg-card rounded-xl shadow-ambient-sm p-5 mb-4">
         <form onSubmit={handleAsk} className="space-y-3">
           <textarea
             value={question}
             onChange={e => setQuestion(e.target.value)}
             placeholder="Pergunte sobre modelo de negócios, pitch, mercado..."
             rows={3}
-            className="w-full px-4 py-3 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+            className="w-full px-4 py-3 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
           />
           <button
             type="submit"
             disabled={loading || !question.trim()}
-            className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
+            className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-40 active:scale-[0.98] transition-transform"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             Enviar pergunta
@@ -73,7 +73,7 @@ export default function Tools() {
         </form>
 
         {response && (
-          <div className="mt-4 bg-primary/5 rounded-2xl p-4 border border-primary/10">
+          <div className="mt-4 bg-primary/5 rounded-lg p-4 border border-primary/10">
             <div className="flex items-center gap-2 mb-2">
               <Bot className="w-4 h-4 text-primary" />
               <span className="text-xs font-bold text-primary">Resposta</span>
@@ -85,7 +85,7 @@ export default function Tools() {
 
       {/* Materials */}
       {materials && materials.length > 0 && (
-        <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5">
+        <div className="bg-card rounded-xl shadow-ambient-sm p-5">
           <div className="flex items-center gap-2 mb-4">
             <FileText className="w-5 h-5 text-primary" />
             <h3 className="font-bold text-sm">Materiais de apoio</h3>

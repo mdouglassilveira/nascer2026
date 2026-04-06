@@ -63,7 +63,7 @@ export default function Attendance() {
   return (
     <div className="px-4 pt-4 lg:px-0">
       {/* Header */}
-      <div className="bg-linear-to-br from-indigo-500 to-blue-600 rounded-3xl p-5 mb-5 shadow-lg shadow-indigo-500/20">
+      <div className="bg-linear-to-br from-indigo-500 to-blue-600 rounded-xl p-5 mb-5 shadow-lg shadow-indigo-500/20">
         <CalendarCheck className="w-8 h-8 text-white mb-2" />
         <h2 className="text-white font-bold text-lg">Presenças</h2>
         <div className="flex items-center gap-3 mt-3">
@@ -84,7 +84,7 @@ export default function Attendance() {
           return (
             <div
               key={event.id}
-              className={`bg-card rounded-2xl border shadow-sm shadow-black/5 p-4 flex items-center gap-3 ${
+              className={`bg-card rounded-lg border shadow-ambient-sm p-4 flex items-center gap-3 ${
                 isPresent ? 'border-secondary/30' : isAbsent ? 'border-danger/30' : 'border-border/50'
               }`}
             >
@@ -119,7 +119,7 @@ export default function Attendance() {
 
         {total === 0 && (
           <div className="text-center py-12">
-            <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-3">
+            <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
               <CalendarCheck className="w-8 h-8 text-text-muted" />
             </div>
             <p className="text-text-muted font-medium">Nenhum encontro registrado</p>

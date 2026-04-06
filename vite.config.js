@@ -14,7 +14,7 @@ export default defineConfig({
         name: 'Programa Nascer 2026',
         short_name: 'Nascer',
         description: 'Plataforma do Programa Nascer 2026',
-        theme_color: '#1E3A8A',
+        theme_color: '#00236f',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',

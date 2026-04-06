@@ -60,7 +60,7 @@ export default function Step3Proposal({ form, update, onNext, onBack, saving }) 
       <div className="flex gap-3 pt-2">
         <button
           onClick={onBack}
-          className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-semibold bg-bg active:bg-border/50 transition-colors"
+          className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-lg text-sm font-semibold bg-bg active:bg-border/50 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar
@@ -68,7 +68,7 @@ export default function Step3Proposal({ form, update, onNext, onBack, saving }) 
         <button
           onClick={onNext}
           disabled={!requiredFilled || saving}
-          className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
+          className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-40 active:scale-[0.98] transition-transform"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
           Próximo

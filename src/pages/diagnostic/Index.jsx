@@ -220,7 +220,7 @@ export default function Diagnostic() {
     return (
       <div className="px-4 pt-4 lg:px-0 max-w-lg mx-auto">
         {/* Score header */}
-        <div className="bg-card rounded-3xl shadow-sm shadow-black/5 border border-border/50 overflow-hidden">
+        <div className="bg-card rounded-xl shadow-ambient-sm overflow-hidden">
           <div className="bg-linear-to-br from-orange-500 to-amber-500 px-5 py-5">
             <p className="text-white/70 text-xs font-medium">Maturidade Total</p>
             <div className="flex items-end gap-3 mt-1">
@@ -272,7 +272,7 @@ export default function Diagnostic() {
               const answerText = answerIdx !== undefined ? q.options[answerIdx] : '—'
               const Icon = q.icon
               return (
-                <div key={q.id} className="bg-card rounded-2xl border border-border/50 p-4">
+                <div key={q.id} className="bg-card rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-1">
                     <div className={`w-6 h-6 rounded-md ${q.color} flex items-center justify-center`}>
                       <Icon className="w-3.5 h-3.5 text-white" />
@@ -292,7 +292,7 @@ export default function Diagnostic() {
             setResponses(existing.responses || {})
             setCurrentQ(0)
           }}
-          className="w-full flex items-center justify-center gap-2 mt-4 py-3.5 rounded-2xl text-sm font-semibold text-primary bg-primary/10 active:bg-primary/20 transition-colors"
+          className="w-full flex items-center justify-center gap-2 mt-4 py-3.5 rounded-lg text-sm font-semibold text-primary bg-primary/10 active:bg-primary/20 transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
           Refazer diagnóstico
@@ -314,7 +314,7 @@ export default function Diagnostic() {
   return (
     <div className="px-4 pt-4 lg:px-0 max-w-lg mx-auto">
       {/* Header */}
-      <div className="bg-linear-to-br from-orange-500 to-amber-500 rounded-3xl p-5 mb-5 shadow-lg shadow-orange-500/20">
+      <div className="bg-linear-to-br from-orange-500 to-amber-500 rounded-xl p-5 mb-5 shadow-lg shadow-orange-500/20">
         <Stethoscope className="w-8 h-8 text-white mb-2" />
         <h2 className="text-white font-bold text-lg">Diagnóstico</h2>
         <p className="text-white/70 text-sm mt-1">Responda as perguntas para receber a análise</p>
@@ -332,7 +332,7 @@ export default function Diagnostic() {
       </div>
 
       {/* Question card */}
-      <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5">
+      <div className="bg-card rounded-xl shadow-ambient-sm p-5">
         {/* Category badge */}
         <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full ${q.color} mb-4`}>
           <Icon className="w-3.5 h-3.5 text-white" />
@@ -347,7 +347,7 @@ export default function Diagnostic() {
               key={i}
               type="button"
               onClick={() => setResponses(r => ({ ...r, [q.id]: i }))}
-              className={`w-full text-left px-4 py-3.5 rounded-2xl text-sm transition-all border ${
+              className={`w-full text-left px-4 py-3.5 rounded-lg text-sm transition-all border ${
                 currentAnswer === i
                   ? 'bg-primary text-white border-primary shadow-sm scale-[1.01]'
                   : 'bg-bg text-text border-transparent hover:border-primary/20'
@@ -363,7 +363,7 @@ export default function Diagnostic() {
           {currentQ > 0 && (
             <button
               onClick={() => { setCurrentQ(q => q - 1); window.scrollTo(0, 0) }}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-bg active:bg-border/50 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-semibold bg-bg active:bg-border/50 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Voltar
@@ -374,7 +374,7 @@ export default function Diagnostic() {
             <button
               onClick={() => mutation.mutate()}
               disabled={!allAnswered || mutation.isPending}
-              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-orange-500 to-amber-500 text-white py-3 rounded-2xl text-sm font-semibold shadow-md shadow-orange-500/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
+              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-orange-500 to-amber-500 text-white py-3 rounded-lg text-sm font-semibold shadow-md shadow-orange-500/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
             >
               {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               Enviar diagnóstico
@@ -383,7 +383,7 @@ export default function Diagnostic() {
             <button
               onClick={() => { setCurrentQ(q => q + 1); window.scrollTo(0, 0) }}
               disabled={currentAnswer === undefined}
-              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-2xl text-sm font-semibold shadow-md shadow-primary/25 disabled:opacity-40 active:scale-[0.98] transition-transform"
+              className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-primary to-primary-light text-white py-3 rounded-lg text-sm font-semibold shadow-ambient-sm disabled:opacity-40 active:scale-[0.98] transition-transform"
             >
               Avançar
               <ArrowRight className="w-4 h-4" />

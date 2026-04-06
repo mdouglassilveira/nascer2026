@@ -63,7 +63,7 @@ export default function Register() {
           <div className="mt-8 flex flex-col items-center gap-3">
             <Link
               to="/login"
-              className="bg-white/15 backdrop-blur-md text-white px-6 py-3 rounded-2xl text-sm font-semibold active:scale-[0.98] transition-transform"
+              className="bg-white/15 backdrop-blur-md text-white px-6 py-3 rounded-lg text-sm font-semibold active:scale-[0.98] transition-transform"
             >
               Ir para o login
             </Link>
@@ -85,14 +85,14 @@ export default function Register() {
       <div className="absolute bottom-[-10%] left-[-15%] w-100 h-100 rounded-full bg-secondary/10 blur-3xl" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16 pb-8 relative z-10">
-        <div className="w-20 h-20 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
+        <div className="w-20 h-20 rounded-lg bg-white/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
           <Sparkles className="w-10 h-10 text-white" />
         </div>
         <h1 className="text-3xl font-extrabold text-white tracking-tight">Nascer 2026</h1>
         <p className="text-white/60 text-sm mt-2">Programa de Inovação</p>
       </div>
 
-      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 lg:rounded-2xl lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
+      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 lg:rounded-lg lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
         <h2 className="text-2xl font-bold mb-1">Criar conta</h2>
         <p className="text-sm text-text-muted mb-6">Cadastre-se para se inscrever no programa</p>
 
@@ -104,7 +104,7 @@ export default function Register() {
               value={name}
               onChange={e => setName(e.target.value)}
               required
-              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
+              className="w-full pl-11 pr-4 py-3.5 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
               placeholder="Seu nome completo"
             />
           </div>
@@ -115,7 +115,7 @@ export default function Register() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
+              className="w-full pl-11 pr-4 py-3.5 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
               placeholder="Seu email"
             />
           </div>
@@ -126,7 +126,7 @@ export default function Register() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
+              className="w-full pl-11 pr-4 py-3.5 rounded-lg bg-bg border-0 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-text-muted/60"
               placeholder="Crie uma senha (mín. 6 caracteres)"
             />
           </div>
@@ -134,7 +134,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-2xl font-semibold text-sm shadow-lg shadow-primary/30 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+            className="w-full bg-linear-to-r from-primary to-primary-light text-white py-3.5 rounded-lg font-semibold text-sm shadow-lg shadow-primary/30 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
               <>

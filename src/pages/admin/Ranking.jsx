@@ -57,7 +57,7 @@ export default function Ranking() {
       )}
 
       {/* Ranking list */}
-      <div className="bg-card rounded-2xl border border-border/50 shadow-sm overflow-hidden">
+      <div className="bg-card rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>

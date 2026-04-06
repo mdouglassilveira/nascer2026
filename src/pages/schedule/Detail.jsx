@@ -77,7 +77,7 @@ export default function EventDetail() {
       </div>
 
       <div className="px-4 -mt-4">
-        <div className="bg-card rounded-3xl border border-border/50 shadow-sm shadow-black/5 p-5 space-y-5">
+        <div className="bg-card rounded-xl shadow-ambient-sm p-5 space-y-5">
           {event.description && (
             <div>
               <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-1">Descrição</p>
@@ -92,7 +92,7 @@ export default function EventDetail() {
                   href={event.live_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-linear-to-r from-blue-500 to-cyan-500 text-white py-3.5 rounded-2xl text-sm font-semibold shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-transform"
+                  className="flex items-center justify-center gap-2 bg-linear-to-r from-blue-500 to-cyan-500 text-white py-3.5 rounded-lg text-sm font-semibold shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-transform"
                 >
                   <Play className="w-4 h-4" />
                   Assistir ao vivo
@@ -103,7 +103,7 @@ export default function EventDetail() {
                   href={event.replay_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 border-2 border-border py-3 rounded-2xl text-sm font-semibold active:bg-gray-50 transition-colors"
+                  className="flex items-center justify-center gap-2 border-2 border-border py-3 rounded-lg text-sm font-semibold active:bg-gray-50 transition-colors"
                 >
                   <Play className="w-4 h-4" />
                   Assistir replay
@@ -136,7 +136,7 @@ export default function EventDetail() {
           {/* Presence */}
           <div className="pt-3 border-t border-border/50">
             {isPresent ? (
-              <div className="flex items-center justify-center gap-2 text-secondary font-bold text-sm py-3 bg-secondary/10 rounded-2xl">
+              <div className="flex items-center justify-center gap-2 text-secondary font-bold text-sm py-3 bg-secondary/10 rounded-lg">
                 <CheckCircle2 className="w-5 h-5" />
                 Presença registrada
               </div>
@@ -144,7 +144,7 @@ export default function EventDetail() {
               <button
                 onClick={() => markPresence.mutate()}
                 disabled={markPresence.isPending}
-                className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-secondary to-secondary-dark text-white py-3.5 rounded-2xl text-sm font-semibold shadow-lg shadow-secondary/25 disabled:opacity-50 active:scale-[0.98] transition-transform"
+                className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-secondary to-secondary-dark text-white py-3.5 rounded-lg text-sm font-semibold shadow-lg shadow-secondary/25 disabled:opacity-50 active:scale-[0.98] transition-transform"
               >
                 {markPresence.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
                 Marcar presença
