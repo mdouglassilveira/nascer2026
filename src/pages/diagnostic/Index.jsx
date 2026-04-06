@@ -225,7 +225,7 @@ export default function Diagnostic() {
             <p className="text-white/70 text-xs font-medium">Maturidade Total</p>
             <div className="flex items-end gap-3 mt-1">
               <span className="text-4xl font-extrabold text-white">{totalScore}/{maxScore}</span>
-              <div className="mb-1.5 w-14 h-14 rounded-full bg-white/20 flex items-center justify-center">
+              <div className="mb-1.5 w-14 h-14 rounded-full bg-card/20 flex items-center justify-center">
                 <span className="text-white font-extrabold text-sm">{pct}%</span>
               </div>
             </div>
@@ -249,7 +249,7 @@ export default function Diagnostic() {
                       </div>
                       <span className="text-xs font-bold text-text-muted">{score}/5</span>
                     </div>
-                    <div className="w-full bg-gray-100 rounded-full h-2">
+                    <div className="w-full bg-surface rounded-full h-2">
                       <div
                         className={`h-2 rounded-full transition-all ${q.color}`}
                         style={{ width: `${(score / 5) * 100}%` }}
@@ -321,9 +321,9 @@ export default function Diagnostic() {
 
         {/* Progress */}
         <div className="flex items-center gap-2 mt-4">
-          <div className="flex-1 bg-white/20 rounded-full h-1.5">
+          <div className="flex-1 bg-card/20 rounded-full h-1.5">
             <div
-              className="bg-white h-1.5 rounded-full transition-all duration-300"
+              className="bg-card h-1.5 rounded-full transition-all duration-300"
               style={{ width: `${((currentQ + 1) / QUESTIONS.length) * 100}%` }}
             />
           </div>

@@ -40,14 +40,14 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-primary via-primary-dark to-gradient-end relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-bg via-surface to-primary-container relative overflow-hidden">
       {/* Background shapes */}
-      <div className="absolute top-[-20%] right-[-20%] w-[500px] h-[500px] rounded-full bg-white/5 blur-3xl" />
+      <div className="absolute top-[-20%] right-[-20%] w-[500px] h-[500px] rounded-full bg-card/5 blur-3xl" />
       <div className="absolute bottom-[-10%] left-[-15%] w-[400px] h-[400px] rounded-full bg-secondary/10 blur-3xl" />
 
       {/* Header area */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16 pb-8 relative z-10">
-        <div className="w-20 h-20 rounded-lg bg-white/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
+        <div className="w-20 h-20 rounded-lg bg-card/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
           <Sparkles className="w-10 h-10 text-white" />
         </div>
         <h1 className="text-3xl font-extrabold text-white tracking-tight">Nascer 2026</h1>
@@ -55,7 +55,7 @@ export default function Login() {
       </div>
 
       {/* Form card */}
-      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 min-h-[45vh] lg:rounded-lg lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
+      <div className="relative z-10 bg-card rounded-t-4xl px-6 pt-8 pb-10 shadow-ambient glow-border min-h-[45vh] lg:rounded-lg lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
         {resetMode ? (
           resetSent ? (
             <div className="text-center py-8">

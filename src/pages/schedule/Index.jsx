@@ -77,7 +77,7 @@ export default function Schedule() {
 
       {events?.length === 0 && (
         <div className="text-center py-12">
-          <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
+          <div className="w-16 h-16 rounded-lg bg-surface flex items-center justify-center mx-auto mb-3">
             <Calendar className="w-8 h-8 text-text-muted" />
           </div>
           <p className="text-text-muted font-medium">Nenhum encontro agendado</p>

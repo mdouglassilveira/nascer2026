@@ -10,7 +10,7 @@ const STATUS_CONFIG = {
   rascunho: { label: 'Rascunho', color: 'bg-warning/10 text-warning' },
   submetida: { label: 'Submetida', color: 'bg-info/10 text-info' },
   aprovada: { label: 'Aprovada', color: 'bg-secondary/10 text-secondary' },
-  desistente: { label: 'Desistente', color: 'bg-gray-100 text-gray-500' },
+  desistente: { label: 'Desistente', color: 'bg-surface text-gray-500' },
 }
 
 export default function Enrollments() {

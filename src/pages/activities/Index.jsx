@@ -43,9 +43,9 @@ export default function Activities() {
           </div>
           <span className="text-white font-extrabold text-xl">{pct}%</span>
         </div>
-        <div className="w-full bg-white/20 rounded-full h-2.5">
+        <div className="w-full bg-card/20 rounded-full h-2.5">
           <div
-            className="bg-white h-2.5 rounded-full transition-all duration-700"
+            className="bg-card h-2.5 rounded-full transition-all duration-700"
             style={{ width: `${pct}%` }}
           />
         </div>
@@ -65,7 +65,7 @@ export default function Activities() {
               }`}
             >
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                isDone ? 'bg-secondary/10' : 'bg-gray-100'
+                isDone ? 'bg-secondary/10' : 'bg-surface'
               }`}>
                 {isDone ? (
                   <CheckCircle2 className="w-5 h-5 text-secondary" />
@@ -88,7 +88,7 @@ export default function Activities() {
 
         {total === 0 && (
           <div className="text-center py-12">
-            <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
+            <div className="w-16 h-16 rounded-lg bg-surface flex items-center justify-center mx-auto mb-3">
               <ClipboardList className="w-8 h-8 text-text-muted" />
             </div>
             <p className="text-text-muted font-medium">Nenhuma atividade disponível</p>

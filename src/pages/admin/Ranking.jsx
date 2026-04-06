@@ -79,7 +79,7 @@ export default function Ranking() {
                     {i < 3 ? (
                       <div className={`w-7 h-7 rounded-full flex items-center justify-center mx-auto ${
                         i === 0 ? 'bg-yellow-100 text-yellow-600' :
-                        i === 1 ? 'bg-gray-100 text-gray-500' :
+                        i === 1 ? 'bg-surface text-gray-500' :
                         'bg-orange-100 text-orange-500'
                       }`}>
                         {i === 0 ? <Trophy className="w-3.5 h-3.5" /> : <Medal className="w-3.5 h-3.5" />}
@@ -108,7 +108,7 @@ export default function Ranking() {
                   </td>
                   <td className="text-center px-3 py-3">
                     <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                      r.evaluator_count > 0 ? 'bg-secondary/10 text-secondary' : 'bg-gray-100 text-gray-400'
+                      r.evaluator_count > 0 ? 'bg-secondary/10 text-secondary' : 'bg-surface text-gray-400'
                     }`}>
                       {r.evaluator_count}
                     </span>

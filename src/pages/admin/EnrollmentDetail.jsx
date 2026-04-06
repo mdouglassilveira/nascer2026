@@ -163,7 +163,7 @@ function StatusBadge({ status }) {
     rascunho: 'bg-warning/10 text-warning',
     submetida: 'bg-info/10 text-info',
     aprovada: 'bg-secondary/10 text-secondary',
-    desistente: 'bg-gray-100 text-gray-500',
+    desistente: 'bg-surface text-gray-500',
   }
   return (
     <span className={`text-xs font-bold px-3 py-1 rounded-full ${config[status] || config.rascunho}`}>

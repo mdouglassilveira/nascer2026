@@ -107,7 +107,7 @@ export default function Team() {
           </div>
           <div className="flex gap-1.5">
             {Array.from({ length: MAX_MEMBERS }).map((_, i) => (
-              <div key={i} className={`w-3 h-3 rounded-full ${i < totalCount ? 'bg-white' : 'bg-white/30'}`} />
+              <div key={i} className={`w-3 h-3 rounded-full ${i < totalCount ? 'bg-card' : 'bg-card/30'}`} />
             ))}
           </div>
         </div>
@@ -150,7 +150,7 @@ export default function Team() {
       {/* Empty state */}
       {totalCount <= 1 && !showForm && (
         <div className="text-center py-8">
-          <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
+          <div className="w-16 h-16 rounded-lg bg-surface flex items-center justify-center mx-auto mb-3">
             <Users className="w-8 h-8 text-text-muted" />
           </div>
           <p className="text-text-muted font-medium">Adicione membros à sua equipe</p>
@@ -174,7 +174,7 @@ export default function Team() {
         <div className="bg-card rounded-xl shadow-ambient-sm p-5 mt-3">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-sm">Convidar membro</h3>
-            <button onClick={() => setShowForm(false)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
+            <button onClick={() => setShowForm(false)} className="w-7 h-7 rounded-full bg-surface flex items-center justify-center">
               <X className="w-3.5 h-3.5" />
             </button>
           </div>

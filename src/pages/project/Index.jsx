@@ -26,13 +26,13 @@ export default function Project() {
       {/* Project header */}
       <div className="bg-linear-to-br from-purple-500 to-violet-600 rounded-xl p-5 mb-4 shadow-lg shadow-purple-500/20">
         <div className="flex items-start gap-3">
-          <div className="w-12 h-12 rounded-lg bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 rounded-lg bg-card/20 backdrop-blur-md flex items-center justify-center shrink-0">
             <FolderKanban className="w-6 h-6 text-white" />
           </div>
           <div>
             <h1 className="text-xl font-extrabold text-white">{project.name}</h1>
             {project.stage && (
-              <span className="inline-block mt-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-white/20 text-white">
+              <span className="inline-block mt-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-card/20 text-white">
                 {project.stage}
               </span>
             )}

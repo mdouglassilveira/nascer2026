@@ -42,9 +42,9 @@ export default function Tools() {
     <div className="px-4 pt-4 lg:px-0">
       {/* AI Header */}
       <div className="bg-linear-to-br from-primary to-primary-light rounded-xl p-5 mb-5 shadow-lg shadow-primary/20 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-card/5 -translate-y-1/2 translate-x-1/3" />
         <div className="relative z-10">
-          <div className="w-12 h-12 rounded-lg bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
+          <div className="w-12 h-12 rounded-lg bg-card/15 backdrop-blur-md flex items-center justify-center mb-3">
             <Sparkles className="w-6 h-6 text-white" />
           </div>
           <h2 className="text-white font-bold text-lg">Assistente IA</h2>

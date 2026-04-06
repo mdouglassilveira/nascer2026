@@ -35,7 +35,7 @@ export default function UpdatePrompt() {
           </button>
           <button
             onClick={() => setNeedRefresh(false)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:bg-gray-100"
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:bg-surface"
           >
             <X className="w-3.5 h-3.5" />
           </button>

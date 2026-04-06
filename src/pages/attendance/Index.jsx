@@ -67,8 +67,8 @@ export default function Attendance() {
         <CalendarCheck className="w-8 h-8 text-white mb-2" />
         <h2 className="text-white font-bold text-lg">Presenças</h2>
         <div className="flex items-center gap-3 mt-3">
-          <div className="flex-1 bg-white/20 rounded-full h-2">
-            <div className="bg-white h-2 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+          <div className="flex-1 bg-card/20 rounded-full h-2">
+            <div className="bg-card h-2 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
           </div>
           <span className="text-white font-extrabold text-sm">{present}/{total}</span>
         </div>
@@ -89,7 +89,7 @@ export default function Attendance() {
               }`}
             >
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                isPresent ? 'bg-secondary/10' : isAbsent ? 'bg-danger/10' : 'bg-gray-100'
+                isPresent ? 'bg-secondary/10' : isAbsent ? 'bg-danger/10' : 'bg-surface'
               }`}>
                 {isPresent ? (
                   <CheckCircle2 className="w-5 h-5 text-secondary" />
@@ -109,7 +109,7 @@ export default function Attendance() {
               <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${
                 isPresent ? 'bg-secondary/10 text-secondary' :
                 isAbsent ? 'bg-danger/10 text-danger' :
-                'bg-gray-100 text-text-muted'
+                'bg-surface text-text-muted'
               }`}>
                 {isPresent ? 'Presente' : isAbsent ? 'Ausente' : 'Pendente'}
               </span>
@@ -119,7 +119,7 @@ export default function Attendance() {
 
         {total === 0 && (
           <div className="text-center py-12">
-            <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
+            <div className="w-16 h-16 rounded-lg bg-surface flex items-center justify-center mx-auto mb-3">
               <CalendarCheck className="w-8 h-8 text-text-muted" />
             </div>
             <p className="text-text-muted font-medium">Nenhum encontro registrado</p>

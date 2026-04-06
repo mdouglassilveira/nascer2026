@@ -103,7 +103,7 @@ export default function EventDetail() {
                   href={event.replay_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 border-2 border-border py-3 rounded-lg text-sm font-semibold active:bg-gray-50 transition-colors"
+                  className="flex items-center justify-center gap-2 border-2 border-border py-3 rounded-lg text-sm font-semibold active:bg-surface transition-colors"
                 >
                   <Play className="w-4 h-4" />
                   Assistir replay

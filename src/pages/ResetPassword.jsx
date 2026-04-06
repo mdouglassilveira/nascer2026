@@ -59,18 +59,18 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-br from-primary via-primary-dark to-gradient-end relative overflow-hidden">
-      <div className="absolute top-[-20%] right-[-20%] w-125 h-125 rounded-full bg-white/5 blur-3xl" />
+    <div className="min-h-screen flex flex-col bg-linear-to-br from-bg via-surface to-primary-container relative overflow-hidden">
+      <div className="absolute top-[-20%] right-[-20%] w-125 h-125 rounded-full bg-card/5 blur-3xl" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16 pb-8 relative z-10">
-        <div className="w-20 h-20 rounded-lg bg-white/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
+        <div className="w-20 h-20 rounded-lg bg-card/15 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg shadow-black/10">
           <Sparkles className="w-10 h-10 text-white" />
         </div>
         <h1 className="text-3xl font-extrabold text-white tracking-tight">Nascer 2026</h1>
         <p className="text-white/60 text-sm mt-2">Defina sua senha</p>
       </div>
 
-      <div className="relative z-10 bg-white rounded-t-4xl px-6 pt-8 pb-10 shadow-2xl shadow-black/20 lg:rounded-lg lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
+      <div className="relative z-10 bg-card rounded-t-4xl px-6 pt-8 pb-10 shadow-ambient glow-border lg:rounded-lg lg:mx-auto lg:mb-10 lg:w-full lg:max-w-md">
         <h2 className="text-2xl font-bold mb-1">Nova senha</h2>
         <p className="text-sm text-text-muted mb-6">Crie uma senha para acessar o programa</p>
 

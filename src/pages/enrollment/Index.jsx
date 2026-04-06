@@ -95,7 +95,7 @@ export default function Enrollment() {
     <div className="min-h-screen bg-bg">
       {/* Header */}
       <div className="bg-linear-to-br from-primary via-primary-dark to-gradient-end px-5 pt-10 pb-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-card/5 -translate-y-1/2 translate-x-1/3" />
         <div className="relative z-10 max-w-lg mx-auto">
           <p className="text-white/60 text-xs font-medium uppercase tracking-wider">Inscrição</p>
           <h1 className="text-2xl font-extrabold text-white mt-1">{edition?.name}</h1>
@@ -105,7 +105,7 @@ export default function Enrollment() {
             {STEPS.map((s, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-1">
                 <div className={`h-1.5 w-full rounded-full transition-all ${
-                  i < step ? 'bg-secondary' : i === step ? 'bg-white' : 'bg-white/20'
+                  i < step ? 'bg-secondary' : i === step ? 'bg-card' : 'bg-card/20'
                 }`} />
                 <span className={`text-[9px] font-medium ${
                   i <= step ? 'text-white' : 'text-white/40'

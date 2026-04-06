@@ -185,7 +185,7 @@ export default function SoftSkills() {
                   <span className="text-sm font-semibold">{config.label}</span>
                   <span className="text-sm font-extrabold text-primary">{score}%</span>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-2">
+                <div className="w-full bg-surface rounded-full h-2">
                   <div
                     className="bg-primary h-2 rounded-full transition-all"
                     style={{ width: `${score}%` }}
@@ -247,9 +247,9 @@ export default function SoftSkills() {
 
         {/* Progress */}
         <div className="flex items-center gap-2 mt-4">
-          <div className="flex-1 bg-white/20 rounded-full h-1.5">
+          <div className="flex-1 bg-card/20 rounded-full h-1.5">
             <div
-              className="bg-white h-1.5 rounded-full transition-all duration-300"
+              className="bg-card h-1.5 rounded-full transition-all duration-300"
               style={{ width: `${((currentQ + 1) / STATEMENTS.length) * 100}%` }}
             />
           </div>
@@ -327,7 +327,7 @@ export default function SoftSkills() {
                     ? 'bg-primary text-white scale-110'
                     : isAnswered
                       ? 'bg-secondary/20 text-secondary'
-                      : 'bg-gray-100 text-text-muted'
+                      : 'bg-surface text-text-muted'
                 }`}
               >
                 {i + 1}

@@ -121,7 +121,7 @@ export default function Layout() {
                   onClick={() => setShowMore(false)}
                   className={({ isActive }) => `
                     flex items-center gap-4 px-4 py-3.5 rounded-lg transition-all
-                    ${isActive ? 'bg-primary/10' : 'hover:bg-gray-50 active:bg-gray-100'}
+                    ${isActive ? 'bg-primary/10' : 'hover:bg-surface active:bg-surface'}
                   `}
                 >
                   <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-primary/10 to-primary/5`}>
