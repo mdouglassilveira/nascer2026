@@ -52,18 +52,33 @@ body {
 input, textarea, select { font-family: inherit; }
 html { scroll-behavior: smooth; }
 
-/* Headlines use Manrope */
 h1, h2, h3 {
   font-family: 'Manrope', system-ui, sans-serif;
   letter-spacing: -0.02em;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
 
 /* =====================================================
-   INPUT FIELD (Stitch-inspired)
+   TAILWIND UTILITIES (registered so they survive purge)
+   ===================================================== */
+@utility shadow-ambient {
+  box-shadow: 0 12px 32px rgba(0, 35, 111, 0.08);
+}
+
+@utility shadow-ambient-sm {
+  box-shadow: 0 4px 16px rgba(0, 35, 111, 0.06);
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* =====================================================
+   INPUT FIELD
    ===================================================== */
 .input-field {
   width: 100%;
@@ -80,14 +95,13 @@ h1, h2, h3 {
 }
 .input-field:focus {
   background: var(--color-card);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 20%, transparent);
+  box-shadow: 0 0 0 2px rgba(64, 89, 170, 0.2);
 }
 .input-field::placeholder {
   color: var(--color-text-muted);
   opacity: 0.6;
 }
 
-/* Select */
 select.input-field {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23757682' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -98,25 +112,6 @@ select.input-field {
 select.input-field option {
   background: var(--color-card);
   color: var(--color-text);
-}
-
-/* =====================================================
-   DESIGN SYSTEM UTILITIES
-   ===================================================== */
-
-/* Ambient shadow (tinted with primary, never black) */
-.shadow-ambient {
-  box-shadow: 0 12px 32px rgba(0, 35, 111, 0.08);
-}
-.shadow-ambient-sm {
-  box-shadow: 0 4px 16px rgba(0, 35, 111, 0.06);
-}
-
-/* Glassmorphism */
-.glass {
-  background: color-mix(in srgb, var(--color-card) 80%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
 }
 
 /* =====================================================
