@@ -4,7 +4,7 @@ export function useDarkMode() {
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('nascer-theme')
     if (saved) return saved === 'dark'
-    return true // default to dark
+    return false // default to light
   })
 
   useEffect(() => {
