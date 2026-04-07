@@ -2,14 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 @theme {
-  /* Primary - Electric Blue */
+  /* Primary - Electric Blue (shared) */
   --color-primary: #3D73F5;
   --color-primary-dark: #2B5FD9;
   --color-primary-light: #5B8EFF;
   --color-primary-container: #1A3A7A;
-  /* Secondary - Lime Green */
+  /* Secondary - Teal/Lime */
   --color-secondary: #8DBE41;
   --color-secondary-dark: #6A9A2E;
+  --color-secondary-container: #90efef;
   /* Tertiary - Cyan */
   --color-accent: #00E5FF;
   --color-accent-light: #4DF0FF;
@@ -23,7 +24,19 @@
   --color-gradient-mid: #2B5FD9;
   --color-gradient-end: #1A3A7A;
 
-  /* Dark Surfaces */
+  /* Light mode (default) */
+  --color-bg: #F5F7FB;
+  --color-card: #FFFFFF;
+  --color-surface: #EDF0F7;
+  --color-surface-high: #E0E4EF;
+  --color-text: #1A1D2E;
+  --color-text-muted: #5A6178;
+  --color-border: #D4D9E6;
+  --color-outline: #9BA2B8;
+}
+
+/* Dark mode */
+html.dark {
   --color-bg: #080E20;
   --color-card: #0F1629;
   --color-surface: #151D35;
@@ -45,6 +58,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior: none;
+  transition: background-color 0.25s, color 0.25s;
 }
 
 * { box-sizing: border-box; }
@@ -75,6 +89,13 @@ h1, h2, h3 {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(61, 115, 245, 0.1);
+}
+
+@utility glass-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(61, 115, 245, 0.08);
 }
 
 @utility glow-border {

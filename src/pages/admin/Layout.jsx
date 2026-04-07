@@ -1,12 +1,13 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { useAdminContext } from '../../hooks/useAdminContext'
-
-import { LayoutDashboard, ClipboardList, Award, Users, LogOut, Sparkles, MapPin } from 'lucide-react'
+import { useDarkMode } from '../../hooks/useDarkMode'
+import { LayoutDashboard, ClipboardList, Award, Users, LogOut, Sparkles, MapPin, Sun, Moon } from 'lucide-react'
 
 export default function AdminLayout() {
   const { signOut, user } = useAuth()
   const ctx = useAdminContext()
+  const { dark, toggle: toggleDark } = useDarkMode()
   
   const navigate = useNavigate()
 
@@ -49,6 +50,9 @@ export default function AdminLayout() {
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-text-muted hidden sm:block">{user?.email}</span>
+            <button onClick={toggleDark} className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center">
+              {dark ? <Sun className="w-4 h-4 text-accent" /> : <Moon className="w-4 h-4 text-text-muted" />}
+            </button>
             <button onClick={handleSignOut} className="text-text-muted hover:text-danger">
               <LogOut className="w-4 h-4" />
             </button>

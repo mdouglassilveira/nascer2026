@@ -1,10 +1,10 @@
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-
+import { useDarkMode } from '../hooks/useDarkMode'
 import {
   LayoutDashboard, User, FolderKanban, ClipboardList, Brain,
   Stethoscope, Users, CalendarCheck, Calendar, BookOpen,
-  Wrench, LogOut, ChevronRight, Sparkles, X
+  Wrench, LogOut, ChevronRight, Sparkles, X, Sun, Moon
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -27,7 +27,7 @@ const moreItems = [
 
 export default function Layout() {
   const { signOut, user } = useAuth()
-  
+  const { dark, toggle: toggleDark } = useDarkMode()
   const navigate = useNavigate()
   const location = useLocation()
   const [showMore, setShowMore] = useState(false)
@@ -45,9 +45,14 @@ export default function Layout() {
       <header className="lg:hidden sticky top-0 z-30 glass">
         <div className="flex items-center justify-between px-5 py-3.5">
           <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
-          <button onClick={() => setShowMore(true)} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-primary" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={toggleDark} className="w-9 h-9 rounded-lg bg-surface flex items-center justify-center">
+              {dark ? <Sun className="w-4 h-4 text-accent" /> : <Moon className="w-4 h-4 text-text-muted" />}
+            </button>
+            <button onClick={() => setShowMore(true)} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-primary" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -86,11 +91,16 @@ export default function Layout() {
         </nav>
 
         <div className="p-4 mx-3 mb-3 rounded-lg bg-surface">
-          <div className="flex items-center gap-3 min-w-0 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <User className="w-4 h-4 text-primary" />
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <User className="w-4 h-4 text-primary" />
+              </div>
+              <p className="text-xs font-medium truncate">{user?.email}</p>
             </div>
-            <p className="text-xs font-medium truncate">{user?.email}</p>
+            <button onClick={toggleDark} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center shrink-0">
+              {dark ? <Sun className="w-3.5 h-3.5 text-accent" /> : <Moon className="w-3.5 h-3.5 text-text-muted" />}
+            </button>
           </div>
           <button
             onClick={handleSignOut}
