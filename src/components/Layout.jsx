@@ -42,7 +42,7 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col bg-bg">
       {/* Top bar - mobile (glassmorphism) */}
-      <header className="lg:hidden sticky top-0 z-30 glass">
+      <header className="lg:hidden sticky top-0 z-30 bg-card border-b border-border/50">
         <div className="flex items-center justify-between px-5 py-3.5">
           <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
           <div className="flex items-center gap-2">
